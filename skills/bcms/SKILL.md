@@ -6,7 +6,7 @@ description: >
   security best‑practices.
 ---
 
-## Overview
+# BCMS Skills
 
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 The agent should keep this file under roughly 500 lines and load deeper guides only when needed.
