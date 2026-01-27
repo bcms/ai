@@ -1,20 +1,9 @@
 ---
-name: bcms
 description: >
   A skill that teaches the AI how to work with BCMS. It covers connecting to the BCMS API using the
   `@thebcms/client` SDK, managing templates, entries, groups, widgets,
   media assets, functions and webhooks, handling permissions, and following
   security best‑practices.
-license: MIT
-compatibility:
-  openai: ">=1.0"
-  node: "^18 || ^20"
-metadata:
-  author: BCMS
-  created: 2026-01-27
-  version: "1.0.0"
-  argument-hint: <file-or-pattern>
-allowed-tools: ["node", "npm", "npx", "bash"]
 ---
 
 ## Overview
@@ -43,7 +32,7 @@ Key topics:
 - **Render via BCMS components**: in UI frameworks, prefer `BCMSContentManager` and `BCMSImage` (or their framework equivalents) to render rich text, widgets and media instead of building your own renderers.
 - **Always isolate secrets**: read `orgId`, `instanceId` and API key credentials from environment variables, use separate keys per environment (dev/stage/prod) and prefer scoped keys, especially for media delivery; see `references/bcms-api-basics.md` and `references/permissions.md`.
 - **Design for localisation**: when sites are multi‑lingual, use BCMS locales and model `meta`/`content` per locale; see `references/entries.md` and `references/properties.md`.
-- **Evolve schemas, don’t break them**: when changing content models, add or migrate fields via templates and groups; avoid destructive changes on production data; see `references/templates.md` and `references/groups.md`.
+- **Evolve schemas, don't break them**: when changing content models, add or migrate fields via templates and groups; avoid destructive changes on production data; see `references/templates.md` and `references/groups.md`.
 
 ## Patterns to avoid (and what to do instead)
 

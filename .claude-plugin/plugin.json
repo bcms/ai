@@ -1,0 +1,9 @@
+{
+  "name": "bcms",
+  "description": "A plugin that teaches Claude how to work with BCMS. It covers connecting to the BCMS API using the @thebcms/client SDK, managing templates, entries, groups, widgets, media assets, functions and webhooks, handling permissions, and following security best-practices.",
+  "version": "1.0.0",
+  "author": {
+    "name": "BCMS"
+  },
+  "license": "MIT"
+}
