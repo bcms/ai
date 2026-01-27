@@ -1,4 +1,5 @@
 ---
+name: bcms-best-practices
 description: >
   A skill that teaches the AI how to work with BCMS. It covers connecting to the BCMS API using the
   `@thebcms/client` SDK, managing templates, entries, groups, widgets,
