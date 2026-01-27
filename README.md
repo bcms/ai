@@ -1,23 +1,4 @@
----
-name: bcms
-description: >
-  A skill that teaches the AI how to work with BCMS. It covers connecting to the BCMS API using the
-  `@thebcms/client` SDK, managing templates, entries, groups, widgets,
-  media assets, functions and webhooks, handling permissions, and following
-  security best‑practices.
-license: MIT
-compatibility:
-  openai: ">=1.0"
-  node: "^18 || ^20"
-metadata:
-  author: BCMS
-  created: 2026-01-27
-  version: "1.0.0"
-  argument-hint: <file-or-pattern>
-allowed-tools: ["node", "npm", "npx", "bash"]
----
-
-## Overview
+# BCMS Skill
 
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 The agent should keep this file under roughly 500 lines and load deeper guides only when needed.
