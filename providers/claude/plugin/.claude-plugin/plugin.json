@@ -1,7 +1,7 @@
 {
   "name": "bcms",
-  "description": "A plugin that teaches Claude how to work with BCMS. It covers the @thebcms/client SDK, templates, entries, groups, widgets, media, functions and webhooks, permissions, security, and the Model Context Protocol (MCP) for agent-driven content work with scoped keys. Repo also includes optional skill-creator under .agents/ for maintainers. See ai/CHANGELOG.md.",
-  "version": "1.1.2",
+  "description": "A plugin that teaches Claude how to work with BCMS. It covers the @thebcms/client SDK, templates, entries, groups, widgets, media, functions and webhooks, permissions, security, and the Model Context Protocol (MCP) for agent-driven content work with scoped keys. See ai/CHANGELOG.md.",
+  "version": "1.1.3",
   "author": {
     "name": "BCMS"
   },

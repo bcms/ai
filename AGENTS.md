@@ -11,7 +11,6 @@ This folder is the **BCMS AI skill pack**: guidance for coding agents (Cursor, C
 | `references/*.md` | Deep dives (MCP, Next.js, Astro, Functions, etc.). |
 | `scripts/` | TypeScript SDK examples (`init-client.ts`, `call-function.ts`); not MCP. |
 | `providers/claude/plugin/` | Claude Code plugin: symlinks to canonical skill + `references/`. |
-| `.agents/skills/skill-creator/` | Optional **skill-creator** skill (evals, packaging scripts); for maintainers improving skills—not part of the BCMS plugin bundle. |
 | `CHANGELOG.md` | Version history of this pack. |
 
 ## Plugin packaging

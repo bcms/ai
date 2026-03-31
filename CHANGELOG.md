@@ -2,6 +2,17 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.1.3] — 2026-03-31
+
+### Removed
+
+- **`ai/.agents/skills/skill-creator/`**: removed bundled Anthropic skill-creator from this repo (install from [anthropics/skills](https://github.com/anthropics/skills) or [skills.sh](https://skills.sh) if needed).
+
+### Changed
+
+- **`ai/AGENTS.md`**: dropped `.agents/` row.
+- **Claude Code plugin** metadata version **1.1.3**.
+
 ## [1.1.2] — 2026-03-31
 
 ### Changed
