@@ -2,6 +2,17 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.1.1] — 2026-03-31
+
+### Added
+
+- **`ai/.agents/skills/skill-creator/`**: bundled Anthropic **skill-creator** skill (eval workflows, scripts, references) for maintainers editing or benchmarking skills in this repo.
+
+### Changed
+
+- **`ai/AGENTS.md`**: documents `.agents/` role.
+- **Claude Code plugin** metadata version **1.1.1**.
+
 ## [1.1.0] — 2026-03-31
 
 ### Added
