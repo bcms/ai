@@ -1,0 +1,39 @@
+{
+  "name": "bcms",
+  "displayName": "BCMS",
+  "version": "1.1.4",
+  "description": "BCMS headless CMS: @thebcms/client SDK, templates, entries, groups, widgets, media, functions, webhooks, permissions, and MCP for agent-driven content with scoped keys. See ai/CHANGELOG.md.",
+  "author": {
+    "name": "BCMS",
+    "email": "support@thebcms.com"
+  },
+  "publisher": "BCMS",
+  "homepage": "https://thebcms.com/docs/",
+  "license": "MIT",
+  "keywords": [
+    "astro",
+    "bcms",
+    "cms",
+    "content-management",
+    "gatsby",
+    "headless-cms",
+    "mcp",
+    "nextjs",
+    "nuxt",
+    "svelte",
+    "thebcms"
+  ],
+  "category": "developer-tools",
+  "tags": [
+    "astro",
+    "bcms",
+    "cms",
+    "gatsby",
+    "mcp",
+    "nextjs",
+    "nuxt",
+    "sdk",
+    "svelte"
+  ],
+  "skills": "./skills"
+}

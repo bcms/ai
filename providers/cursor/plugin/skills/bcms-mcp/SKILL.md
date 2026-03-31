@@ -1,0 +1,1 @@
+../../../../../skills/bcms-mcp/SKILL.md

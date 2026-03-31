@@ -2,6 +2,23 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.1.4] — 2026-03-31
+
+### Added
+
+- **Cursor plugin**: [`ai/providers/cursor/plugin/`](providers/cursor/plugin/) with `.cursor-plugin/plugin.json`, symlinked `bcms-best-practices` and `bcms-mcp` skills, plugin-root `references` symlink for MCP skill links, [`mcp.json.example`](providers/cursor/plugin/mcp.json.example), and [`providers/cursor/plugin/README.md`](providers/cursor/plugin/README.md).
+- **Cursor marketplace manifest**: [`ai/.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json) (plugin entries use `name`, `source`, and `description` only, per Cursor schema).
+- **Validation**: [`ai/scripts/validate-cursor-plugin.mjs`](scripts/validate-cursor-plugin.mjs) (run from repo root).
+
+### Changed
+
+- **`ai/AGENTS.md`**, **`ai/README.md`**: document Cursor packaging and marketplace path.
+- **`skills/bcms-mcp/SKILL.md`**: MCP-only skill defers framework/SDK work to the main `bcms` skill and links [`references/frameworks.md`](references/frameworks.md) for all supported stacks.
+- **`skills/bcms/SKILL.md`**: canonical note includes the Cursor plugin symlink path alongside Claude.
+- **Cursor `plugin.json`**: keywords and tags for Astro, Gatsby, Next.js, Nuxt, and Svelte.
+- **`providers/cursor/plugin/mcp.json.example`** and **README**: `YOUR_BCMS_MCP_KEY` placeholder and user MCP copy instructions.
+- **Claude Code plugin** metadata version **1.1.4** (aligned with this release).
+
 ## [1.1.3] — 2026-03-31
 
 ### Removed

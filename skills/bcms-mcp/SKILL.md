@@ -11,4 +11,4 @@ For **session lifecycle**, **environment configuration**, **tool naming**, **pag
 
 Use the **pointer link** tools from the MCP server for internal BCMS links in rich text (`entry:…`, `media:…`); do not invent slug URLs for entry targets.
 
-For **Next.js / Astro** frontends and **SDK** usage, use the **`bcms`** skill (`skills/bcms/SKILL.md`) instead.
+For **any supported framework** (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite, and the rest of the stacks in [`references/frameworks.md`](../../references/frameworks.md)) and for **`@thebcms/client` SDK** usage, use the **`bcms`** skill (`skills/bcms/SKILL.md`) instead of this MCP-only skill.

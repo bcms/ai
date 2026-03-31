@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "bcms": {
+      "url": "https://app.thebcms.com/api/v3/mcp?apiKey=YOUR_BCMS_MCP_KEY"
+    }
+  }
+}

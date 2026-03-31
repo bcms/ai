@@ -9,9 +9,10 @@ This skill gives the AI coding agent concise, BCMS‑specific guidance and defer
 | Path | Role |
 |------|------|
 | [`ai/skills/bcms/SKILL.md`](skills/bcms/SKILL.md) | **Canonical** skill—edit here. |
-| [`ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md`](providers/claude/plugin/skills/bcms-best-practices/SKILL.md) | Symlink to the canonical skill (plugin bundle). On Windows without symlink support, copy the canonical file when publishing. |
+| [`ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md`](providers/claude/plugin/skills/bcms-best-practices/SKILL.md) | Symlink to the canonical skill (Claude Code bundle). On Windows without symlink support, copy the canonical file when publishing. |
+| [`ai/providers/cursor/plugin/`](providers/cursor/plugin/) | **Cursor** plugin bundle (skills + symlinks); marketplace manifest [`ai/.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json). See [`providers/cursor/plugin/README.md`](providers/cursor/plugin/README.md). |
 | [`ai/skills/bcms-mcp/SKILL.md`](skills/bcms-mcp/SKILL.md) | Optional thin skill for MCP-only workflows; points at [`references/mcp.md`](references/mcp.md). |
-| [`ai/scripts/`](scripts/) | Local TypeScript examples (`init-client.ts`, `call-function.ts`). |
+| [`ai/scripts/`](scripts/) | Local TypeScript examples (`init-client.ts`, `call-function.ts`); run `node scripts/validate-cursor-plugin.mjs` to validate the Cursor plugin layout. |
 | [`ai/AGENTS.md`](AGENTS.md) | Layout and integration notes for maintainers. |
 | [`ai/CHANGELOG.md`](CHANGELOG.md) | Skill pack version history. |
 

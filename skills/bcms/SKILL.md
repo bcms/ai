@@ -9,7 +9,7 @@ description: >
 
 # BCMS Skills
 
-**Canonical copy:** edit this file at `ai/skills/bcms/SKILL.md`. The Claude Code plugin packages the same file via a **symlink** at `ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md` (see `ai/README.md`). On Windows, if symlinks are unavailable, copy this file into that path when publishing the plugin.
+**Canonical copy:** edit this file at `ai/skills/bcms/SKILL.md`. The **Claude Code** and **Cursor** plugins package the same file via **symlinks** at `ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md` and `ai/providers/cursor/plugin/skills/bcms-best-practices/SKILL.md` (see `ai/README.md` and `ai/AGENTS.md`). On Windows, if symlinks are unavailable, copy this file into those paths when publishing.
 
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 The agent should keep this file under roughly 500 lines and load deeper guides only when needed.

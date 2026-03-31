@@ -1,0 +1,18 @@
+{
+  "name": "bcms",
+  "owner": {
+    "name": "BCMS",
+    "email": "support@thebcms.com"
+  },
+  "metadata": {
+    "description": "BCMS Cursor plugin marketplace — skills and MCP wiring for the BCMS AI skill pack.",
+    "version": "1.1.4"
+  },
+  "plugins": [
+    {
+      "name": "bcms",
+      "source": "./providers/cursor/plugin",
+      "description": "BCMS integration for Cursor: @thebcms/client, templates, entries, groups, widgets, media, functions, webhooks, permissions, and optional remote MCP with scoped keys."
+    }
+  ]
+}
