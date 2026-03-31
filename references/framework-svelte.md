@@ -30,17 +30,10 @@ Optionally also install `@thebcms/types` if you want generated types.
 // src/lib/bcms.ts
 import { Client } from '@thebcms/client';
 
-export const bcms = new Client(
-  import.meta.env.VITE_BCMS_ORG_ID || '',
-  import.meta.env.VITE_BCMS_INSTANCE_ID || '',
-  {
-    id: import.meta.env.VITE_BCMS_API_KEY_ID || '',
-    secret: import.meta.env.VITE_BCMS_API_KEY_SECRET || '',
-  },
-  {
-    injectSvg: true,
-  },
-);
+export const bcms = new Client({
+  apiKey: import.meta.env.VITE_BCMS_API_KEY,
+  injectSvg: true,
+});
 ```
 
 ```ts

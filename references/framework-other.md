@@ -8,17 +8,14 @@ This guide summarises a few common patterns.
 ```ts
 import { Client } from '@thebcms/client';
 
-export const bcms = new Client(
-  process.env.BCMS_ORG_ID!,
-  process.env.BCMS_INSTANCE_ID!,
-  {
-    id: process.env.BCMS_API_KEY_ID!,
-    secret: process.env.BCMS_API_KEY_SECRET!,
-  },
-);
+export const bcms = new Client({
+  injectSvg: true,
+});
 ```
 
-Always read sensitive values (org ID, instance ID, API key ID/secret) from environment variables.
+Set **`BCMS_API_KEY`** to the full three‑part string (`keyId.secret.instanceId`). See [thebcms.com/docs](https://thebcms.com/docs).
+
+Always read API keys from environment variables, never hard‑code them.
 
 ---
 
@@ -29,14 +26,7 @@ Use BCMS in scripts, cron jobs, or CLI tools:
 ```ts
 import { Client } from '@thebcms/client';
 
-const bcms = new Client(
-  process.env.BCMS_ORG_ID!,
-  process.env.BCMS_INSTANCE_ID!,
-  {
-    id: process.env.BCMS_API_KEY_ID!,
-    secret: process.env.BCMS_API_KEY_SECRET!,
-  },
-);
+const bcms = new Client({ injectSvg: true });
 
 async function run() {
   const entries = await bcms.entry.getAll('products');

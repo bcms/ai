@@ -2,7 +2,7 @@
 
 This index links to framework‑specific integration references.
 
-For all frameworks, prefer the standard BCMS client constructor (org ID, instance ID, API key `{ id, secret }`) and use environment variables for secrets.
+For all frameworks, use the **three‑part API key** in environment variables and the options‑only `Client` pattern from [thebcms.com/docs/integrations](https://thebcms.com/docs/integrations) (`new Client({ injectSvg: true })` with `BCMS_API_KEY`, or `apiKey: process.env....` for public clients).
 
 ### Per‑framework guides
 

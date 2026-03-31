@@ -8,14 +8,14 @@ This document expands on the high‑level notes from `SKILL.md` and focuses on:
 
 ### API keys and environments
 
-- Each API key has a **public ID** and a **secret**; together with the instance they are often used as one **three‑part string** `keyId.secret.instanceId` (see [BCMS docs](https://thebcms.com/docs)).
+- BCMS API keys are used as a **single three‑part string** `keyId.secret.instanceId` (see [BCMS docs](https://thebcms.com/docs)).
 - Create **separate keys per environment** (development, staging, production).
-- Use dedicated **media keys** for public image delivery when possible.
+- Use dedicated **media / public** keys for browser delivery when possible (second env var with another three‑part key, as in the [Next.js](https://thebcms.com/docs/integrations/next-js) and [Nuxt](https://thebcms.com/docs/integrations/nuxt-js) guides).
 
-**Environment variables** (pick the pattern that matches your integration guide):
+**Environment variables** (aligned with [thebcms.com/docs/integrations](https://thebcms.com/docs/integrations)):
 
-- **Single key string** (used in current [Next.js](https://thebcms.com/docs/integrations/next-js) and [Nuxt](https://thebcms.com/docs/integrations/nuxt-js) docs): `BCMS_API_KEY` for the private key; a second env var for the public/media key (e.g. `NEXT_PUBLIC_BCMS_API_KEY`, `NUXT_PUBLIC_BCMS_API_KEY`).
-- **Split credentials** (common in scripts): `BCMS_ORG_ID`, `BCMS_INSTANCE_ID`, `BCMS_API_KEY_ID`, `BCMS_API_KEY_SECRET`.
+- **`BCMS_API_KEY`** — full private key string for server-side `Client` (default when using `new Client({ injectSvg: true })`).
+- **Public key** — e.g. `NEXT_PUBLIC_BCMS_API_KEY`, `NUXT_PUBLIC_BCMS_API_KEY`, or `VITE_BCMS_API_KEY` passed as `apiKey: process.env....` / `import.meta.env....` for public clients.
 
 Never commit these values to source control.
 
@@ -27,9 +27,9 @@ The official SDK is `@thebcms/client`. Common options:
 - `useMemCache`: enable in‑memory caching of responses.
 - `enableSocket`: toggle real‑time updates over websockets.
 
-[Integration guides](https://thebcms.com/docs/integrations) typically use `new Client({ injectSvg: true })` with `BCMS_API_KEY` set, or `new Client({ apiKey: process.env...., injectSvg: true })` for a public key. The **four‑argument** constructor `(orgId, instanceId, { id, secret }, options)` remains valid for explicit credentials.
+[Integration guides](https://thebcms.com/docs/integrations) use the **options‑only** constructor: `new Client({ injectSvg: true })` with `BCMS_API_KEY` set, or `new Client({ apiKey: process.env...., injectSvg: true })` for a public key.
 
-See `SKILL.md` for both patterns.
+See `SKILL.md` and [`ai/scripts/init-client.ts`](../scripts/init-client.ts) for concise examples.
 
 ### General best‑practices
 

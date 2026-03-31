@@ -50,4 +50,4 @@ The CLI sets up BCMS sample content, scaffolds Nuxt, and writes env configuratio
    const blogs = (await bcms.entry.getAll('blog')) as BlogEntry[];
    ```
 
-If your generated types or module version expect `orgId` / `instanceId` / `key: { id, secret }` instead, follow the **module readme** or dashboard output for that version—the published Nuxt integration page above is the default reference.
+If a future `@thebcms/nuxt` version documents a different config shape, follow that module’s readme—the [published Nuxt integration](https://thebcms.com/docs/integrations/nuxt-js) above is the default reference.

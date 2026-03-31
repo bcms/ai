@@ -1,35 +1,22 @@
 /**
  * init-client.ts
  *
- * Demonstrates the four-argument Client(orgId, instanceId, key, options) pattern
- * with split env vars. Official integration guides often use a single BCMS_API_KEY
- * string and `new Client({ injectSvg: true })` instead—see thebcms.com/docs/integrations.
+ * Constructs @thebcms/client using BCMS_API_KEY (three-part string keyId.secret.instanceId).
+ * See https://thebcms.com/docs/integrations
  */
 
 import { Client } from '@thebcms/client';
 
-
 export function createBcmsClient() {
-  const orgId = process.env.BCMS_ORG_ID;
-  const instanceId = process.env.BCMS_INSTANCE_ID;
-  const apiKeyId = process.env.BCMS_API_KEY_ID;
-  const apiKeySecret = process.env.BCMS_API_KEY_SECRET;
+  if (!process.env.BCMS_API_KEY?.trim()) {
+    throw new Error('BCMS_API_KEY is required (format: keyId.secret.instanceId)');
+  }
 
-  const client = new Client(
-    orgId,
-    instanceId,
-    {
-      id: apiKeyId,
-      secret: apiKeySecret,
-    },
-    {
-      injectSvg: true,
-      useMemCache: true,
-      enableSocket: false,
-    },
-  );
-
-  return client;
+  return new Client({
+    injectSvg: true,
+    useMemCache: true,
+    enableSocket: false,
+  });
 }
 
 // If executed directly, just verify the client can be constructed.
@@ -37,7 +24,6 @@ if (require.main === module) {
   (async () => {
     try {
       const bcms = createBcmsClient();
-      // Optionally perform a lightweight call, e.g. list templates.
       const templates = await bcms.template.getAll().catch(() => []);
       console.log(`BCMS client initialised. Templates fetched: ${templates.length}`);
     } catch (error) {

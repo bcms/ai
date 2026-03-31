@@ -16,21 +16,17 @@ npm install
 npm install @thebcms/client @thebcms/types @thebcms/utils
 ```
 
-### Standard client constructor
+### Client constructor
 
-Use the standard BCMS client shape:
+Pass the three‑part key via Vite env (server vs client boundaries per your app); see [BCMS docs](https://thebcms.com/docs/integrations).
 
 ```ts
 import { Client } from '@thebcms/client';
 
-export const bcms = new Client(
-  import.meta.env.VITE_BCMS_ORG_ID || '',
-  import.meta.env.VITE_BCMS_INSTANCE_ID || '',
-  {
-    id: import.meta.env.VITE_BCMS_API_KEY_ID || '',
-    secret: import.meta.env.VITE_BCMS_API_KEY_SECRET || '',
-  },
-);
+export const bcms = new Client({
+  apiKey: import.meta.env.VITE_BCMS_API_KEY,
+  injectSvg: true,
+});
 ```
 
 ### Example `App.vue`

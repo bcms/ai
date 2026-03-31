@@ -87,17 +87,11 @@ Example client:
 ```ts
 import { Client } from '@thebcms/client';
 
-export const bcmsMediaClient = new Client(
-  process.env.NEXT_PUBLIC_BCMS_ORG_ID!,
-  process.env.NEXT_PUBLIC_BCMS_INSTANCE_ID!,
-  {
-    id: process.env.NEXT_PUBLIC_BCMS_MEDIA_API_KEY_ID!,
-    secret: process.env.NEXT_PUBLIC_BCMS_MEDIA_API_KEY_SECRET!,
-  },
-  {
-    injectSvg: true, // Auto‑inlines SVGs
-  },
-);
+// Use a dedicated public three-part media key (env name per your app; mirrors NEXT_PUBLIC_BCMS_API_KEY style)
+export const bcmsMediaClient = new Client({
+  apiKey: process.env.NEXT_PUBLIC_BCMS_MEDIA_API_KEY!,
+  injectSvg: true,
+});
 ```
 
 Benefits:

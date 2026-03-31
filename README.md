@@ -35,7 +35,7 @@ Key topics:
 - **Model content with BCMS primitives first**: prefer **templates + entries** as your main content model, with **groups** for reusable structures, **widgets** for reusable content blocks, and the **media library** for files.
 - **Use CLI starters when possible**: for framework projects (Next, Nuxt, Astro, etc.) prefer the official `@thebcms/cli` starters before hand‑rolling integration; see `references/frameworks.md`.
 - **Render via BCMS components**: in UI frameworks, prefer `BCMSContentManager` and `BCMSImage` (or their framework equivalents) to render rich text, widgets and media instead of building your own renderers.
-- **Always isolate secrets**: read `orgId`, `instanceId` and API key credentials from environment variables, use separate keys per environment (dev/stage/prod) and prefer scoped keys, especially for media delivery; see `references/bcms-api-basics.md` and `references/permissions.md`.
+- **Always isolate secrets**: store the **three‑part API key** (`keyId.secret.instanceId`) in environment variables (e.g. `BCMS_API_KEY`, plus a public key var where the framework docs require it), use separate keys per environment (dev/stage/prod), and prefer scoped keys, especially for media delivery; see `references/bcms-api-basics.md` and `references/permissions.md`.
 - **Design for localisation**: when sites are multi‑lingual, use BCMS locales and model `meta`/`content` per locale; see `references/entries.md` and `references/properties.md`.
 - **Evolve schemas, don’t break them**: when changing content models, add or migrate fields via templates and groups; avoid destructive changes on production data; see `references/templates.md` and `references/groups.md`.
 - **MCP when the agent has BCMS tools**: if the environment exposes BCMS MCP tools, use them for listing templates and entries, creating or updating entries (within key scopes), and media discovery. Use `@thebcms/client` for application code, builds, and anything outside MCP (see `references/mcp.md`).
@@ -109,18 +109,7 @@ export const bcmsPublic = new Client({
 });
 ```
 
-**Explicit org, instance, and key id + secret** (scripts and custom env layouts; see `scripts/init-client.ts`):
-
-```ts
-import { Client } from '@thebcms/client';
-
-export const bcms = new Client(
-  process.env.BCMS_ORG_ID!,
-  process.env.BCMS_INSTANCE_ID!,
-  { id: process.env.BCMS_API_KEY_ID!, secret: process.env.BCMS_API_KEY_SECRET! },
-  { injectSvg: true, useMemCache: true, enableSocket: false },
-);
-```
+**Scripts and servers:** set `BCMS_API_KEY` and use `new Client({ injectSvg: true, useMemCache: true, enableSocket: false })` (see [`scripts/init-client.ts`](scripts/init-client.ts)). Follow [thebcms.com/docs](https://thebcms.com/docs).
 
 For env variable patterns and security, see `references/bcms-api-basics.md`.
 

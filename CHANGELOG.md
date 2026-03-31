@@ -2,6 +2,13 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.1.2] — 2026-03-31
+
+### Changed
+
+- **Client env model**: removed the four-argument `Client(orgId, instanceId, { id, secret }, …)` pattern and split env vars (`BCMS_ORG_ID`, etc.). All guides and scripts now use a **single three‑part `BCMS_API_KEY`** and options‑only `Client`, per [thebcms.com/docs](https://thebcms.com/docs/integrations).
+- **`scripts/init-client.ts`**, **`scripts/call-function.ts`**, **`references/bcms-api-basics.md`**, framework reference pages, **`references/media.md`**, **`references/frameworks.md`**, **`README.md`**, canonical **`skills/bcms/SKILL.md`**: updated accordingly.
+
 ## [1.1.1] — 2026-03-31
 
 ### Added
@@ -25,7 +32,7 @@ All notable changes to the canonical skill, references, plugin packaging, and lo
 ### Changed
 
 - **Canonical skill** (`ai/skills/bcms/SKILL.md`): maintenance note (single source of truth), section linking to `ai/scripts/`, `CHANGELOG`, and `AGENTS`.
-- **Docs alignment**: client init and env vars match [thebcms.com/docs](https://thebcms.com/docs) integration guides (`BCMS_API_KEY` + options `Client` first; four-arg constructor documented as alternate). **Next** / **Nuxt** reference pages updated; **entries** examples use official node tree shape; **MCP** notes cover DELETE in UI vs supported operations and both upload tool styles.
+- **Docs alignment**: client init and env vars match [thebcms.com/docs](https://thebcms.com/docs) integration guides (`BCMS_API_KEY` three‑part string + options‑only `Client`). **Next** / **Nuxt** reference pages updated; **entries** examples use official node tree shape; **MCP** notes cover DELETE in UI vs supported operations and both upload tool styles.
 - **Claude Code plugin** (`ai/providers/claude/plugin/`): `bcms-best-practices/SKILL.md` is a **symlink** to the canonical skill; `references` symlink unchanged; plugin metadata version **1.1.0**.
 - **`ai/README.md`**: consolidated layout, symlink note for Windows.
 

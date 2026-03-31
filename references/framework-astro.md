@@ -42,7 +42,7 @@ The CLI:
    }
    ```
 
-4. Create `bcms.config.cjs` with `orgId`, `instanceId`, and API key, using environment variables where possible.
+4. Create `bcms.config.cjs` for `@thebcms/cli` per [BCMS docs](https://thebcms.com/docs), using environment variables for secrets.
 
 5. Initialise:
 

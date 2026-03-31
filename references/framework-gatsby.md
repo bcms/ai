@@ -2,24 +2,17 @@
 
 This guide summarises how to integrate BCMS with a Gatsby project.
 
-### Standard client constructor
+### Client initialization
 
-Use the standard BCMS client shape:
+Use the same pattern as [BCMS integration docs](https://thebcms.com/docs/integrations): one three‑part key per env var.
 
 ```ts
 import { Client } from '@thebcms/client';
 
-export const bcms = new Client(
-  process.env.BCMS_ORG_ID!,
-  process.env.BCMS_INSTANCE_ID!,
-  {
-    id: process.env.BCMS_API_KEY_ID!,
-    secret: process.env.BCMS_API_KEY_SECRET!,
-  },
-  {
-    injectSvg: true,
-  },
-);
+export const bcms = new Client({
+  injectSvg: true,
+});
+// Requires BCMS_API_KEY=keyId.secret.instanceId at build/runtime where Gatsby exposes it
 ```
 
 ### Quick start (CLI)
@@ -59,7 +52,7 @@ The CLI provisions a BCMS project, content, and a Gatsby blog starter.
    }
    ```
 
-4. Configure `bcms.config.cjs` with `orgId`, `instanceId`, and API key.
+4. Configure `bcms.config.cjs` for `@thebcms/cli` per [BCMS docs](https://thebcms.com/docs) and your dashboard.
 
 5. In `gatsby-node.ts`, use the BCMS client to fetch entries and create pages.
 
