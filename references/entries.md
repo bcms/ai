@@ -57,7 +57,7 @@ await bcms.entry.create('blog', {
       nodes: [
         {
           type: 'paragraph',
-          children: [{ text: 'This is my first blog post.' }],
+          content: [{ type: 'text', text: 'This is my first blog post.' }],
         },
       ],
     },
@@ -100,7 +100,7 @@ await bcms.entry.update('blog', 'entry_id', {
   content: [
     {
       type: 'paragraph',
-      children: [{ text: 'Updated content goes here.' }],
+      content: [{ type: 'text', text: 'Updated content goes here.' }],
     },
   ],
 });

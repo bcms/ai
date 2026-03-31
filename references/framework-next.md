@@ -1,56 +1,47 @@
 ## Next.js Integration
 
-This guide summarises how to integrate BCMS with a Next.js project.
-
-### Standard client constructor
-
-Use the standard BCMS client shape and adapt env variable names as needed:
-
-```ts
-import { Client } from '@thebcms/client';
-
-export const bcms = new Client(
-  process.env.BCMS_ORG_ID!,
-  process.env.BCMS_INSTANCE_ID!,
-  {
-    id: process.env.BCMS_API_KEY_ID!,
-    secret: process.env.BCMS_API_KEY_SECRET!,
-  },
-  {
-    injectSvg: true,
-  },
-);
-```
+Aligned with [Getting Started with Next.js and BCMS](https://thebcms.com/docs/integrations/next-js).
 
 ### Quick start (CLI)
-
-The fastest way to get a working blog + BCMS is:
 
 ```bash
 npx @thebcms/cli create next starter simple-blog
 ```
 
-The CLI:
+The CLI creates a BCMS project with sample content, scaffolds Next.js, and writes `.env` with the expected variables.
 
-- Creates a BCMS project and populates it with sample content.
-- Scaffolds a Next.js project.
-- Generates `.env` and wires BCMS configuration.
+### Client initialization (manual / docs pattern)
 
-### Manual setup
+Use a **three‑part API key** in env and the **options‑only** `Client` constructor:
 
-1. Create a Next.js app:
+```ts
+import { Client } from '@thebcms/client';
 
-   ```bash
-   npx create-next-app@latest
-   ```
+export const bcmsPrivate = new Client({ injectSvg: true });
+// Uses BCMS_API_KEY from the environment by default
 
-2. Install BCMS packages:
+export const bcmsPublic = new Client({
+  apiKey: process.env.NEXT_PUBLIC_BCMS_API_KEY,
+  injectSvg: true,
+});
+```
 
-   ```bash
-   npm i --save @thebcms/cli @thebcms/client @thebcms/components-react
-   ```
+`.env` (from the official guide):
 
-3. Add scripts to `package.json`:
+```bash
+BCMS_API_KEY=<YOUR.API.KEY>
+NEXT_PUBLIC_BCMS_API_KEY=<YOUR.PUBLIC.API.KEY>
+```
+
+### Alternative: explicit org, instance, key id + secret
+
+If you prefer split env vars (no single `BCMS_API_KEY` string), use the four‑argument constructor shown in `SKILL.md` and `references/bcms-api-basics.md`.
+
+### Manual setup (summary)
+
+1. `npx create-next-app@latest`
+2. `npm i --save @thebcms/cli @thebcms/client @thebcms/components-react`
+3. Add scripts so types are pulled before Next runs (official pattern):
 
    ```json
    {
@@ -63,22 +54,8 @@ The CLI:
    }
    ```
 
-   `bcms --pull types --lng ts` runs the BCMS CLI and pulls generated types into `bcms/types/`.
+   Types are written under `bcms/types/`; import entry types from there (e.g. `../../bcms/types/ts` as in the official page).
 
-4. Create `bcms.config.cjs`:
+4. Configure `bcms.config.cjs` for the CLI (org, instance, key id/secret) as in your BCMS project settings—same as earlier skill-pack examples.
 
-   ```js
-   module.exports = {
-     client: {
-       orgId: 'YOUR_PROJECT_ORG_ID',
-       instanceId: 'YOUR_PROJECT_INSTANCE_ID',
-       apiKey: {
-         id: 'API_KEY_ID',
-         secret: 'API_KEY_SECRET',
-       },
-     },
-   };
-   ```
-
-5. Use `BCMSContentManager` and `BCMSImage` from `@thebcms/components-react` to render entries and media.
-
+5. Fetch and render with `BCMSContentManager` and `BCMSImage` from `@thebcms/components-react` (see the official guide for a full `page.tsx` example).

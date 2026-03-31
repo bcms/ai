@@ -1,7 +1,7 @@
 {
   "name": "bcms",
-  "description": "A plugin that teaches Claude how to work with BCMS. It covers connecting to the BCMS API using the @thebcms/client SDK, managing templates, entries, groups, widgets, media assets, functions and webhooks, handling permissions, and following security best-practices.",
-  "version": "1.0.0",
+  "description": "A plugin that teaches Claude how to work with BCMS. It covers the @thebcms/client SDK, templates, entries, groups, widgets, media, functions and webhooks, permissions, security, and the Model Context Protocol (MCP) for agent-driven content work with scoped keys. 1.1: canonical skill symlinked into the plugin, optional bcms-mcp skill for MCP-focused flows, local examples under ai/scripts; see ai/CHANGELOG.md.",
+  "version": "1.1.0",
   "author": {
     "name": "BCMS"
   },

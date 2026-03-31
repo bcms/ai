@@ -1,13 +1,15 @@
 ---
 name: bcms-best-practices
 description: >
-  A skill that teaches the AI how to work with BCMS. It covers connecting to the BCMS API using the
-  `@thebcms/client` SDK, managing templates, entries, groups, widgets,
-  media assets, functions and webhooks, handling permissions, and following
-  security best‑practices.
+  BCMS headless CMS: @thebcms/client SDK, templates, entries, groups, widgets, media, functions,
+  webhooks, API keys and permissions. Model Context Protocol (MCP) server for Cursor, Claude Code,
+  and other MCP clients—scoped keys, Streamable HTTP, entry/media tools. Use for content modeling,
+  integrations, and agent-driven content operations.
 ---
 
 # BCMS Skills
+
+**Canonical copy:** edit this file at `ai/skills/bcms/SKILL.md`. The Claude Code plugin packages the same file via a **symlink** at `ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md` (see `ai/README.md`). On Windows, if symlinks are unavailable, copy this file into that path when publishing the plugin.
 
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 The agent should keep this file under roughly 500 lines and load deeper guides only when needed.
@@ -24,21 +26,25 @@ Key topics:
 - Functions and webhooks (see `references/functions-webhooks.md`)
 - Permissions (see `references/permissions.md`)
 - Framework integrations (see `references/frameworks.md`)
+- MCP for agents and IDEs (see `references/mcp.md`)
 
 ## Integration principles and defaults
 
-- **Default to the latest BCMS stack**: use the latest BCMS features and the newest `@thebcms/*` and `@bcms-types/*` packages unless the user explicitly targets an older version.
+- **Default to the latest BCMS stack**: use the latest BCMS features and the newest `@thebcms/*` packages unless the user explicitly targets an older version. Generated types usually live under `bcms/types/ts` after `bcms --pull types` (see [framework guides](https://thebcms.com/docs/integrations)); some setups import from `@thebcms/types` or an alias—match the project you are editing.
 - **Model content with BCMS primitives first**: prefer **templates + entries** as your main content model, with **groups** for reusable structures, **widgets** for reusable content blocks, and the **media library** for files.
 - **Use CLI starters when possible**: for framework projects (Next, Nuxt, Astro, etc.) prefer the official `@thebcms/cli` starters before hand‑rolling integration; see `references/frameworks.md`.
 - **Render via BCMS components**: in UI frameworks, prefer `BCMSContentManager` and `BCMSImage` (or their framework equivalents) to render rich text, widgets and media instead of building your own renderers.
 - **Always isolate secrets**: read `orgId`, `instanceId` and API key credentials from environment variables, use separate keys per environment (dev/stage/prod) and prefer scoped keys, especially for media delivery; see `references/bcms-api-basics.md` and `references/permissions.md`.
 - **Design for localisation**: when sites are multi‑lingual, use BCMS locales and model `meta`/`content` per locale; see `references/entries.md` and `references/properties.md`.
 - **Evolve schemas, don't break them**: when changing content models, add or migrate fields via templates and groups; avoid destructive changes on production data; see `references/templates.md` and `references/groups.md`.
+- **MCP when the agent has BCMS tools**: if the environment exposes BCMS MCP tools, use them for listing templates and entries, creating or updating entries (within key scopes), and media discovery. Use `@thebcms/client` for application code, builds, and anything outside MCP (see `references/mcp.md`).
 
 ## Patterns to avoid (and what to do instead)
 
 - **Never hard‑code API keys or use admin keys in the browser**.
   Instead, store secrets in environment variables and use minimally scoped keys; see `references/bcms-api-basics.md` and `references/permissions.md`.
+- **Never ship MCP API keys to browsers, public repos, or client bundles**.
+  MCP keys are for trusted agents and local config only; scope them like any write-capable key; see `references/mcp.md` and `references/permissions.md`.
 - **Never delete templates, groups, widgets or media in production without checking impact**.
   Always inspect usage first (`group.whereIsItUsed`, `widget.whereIsItUsed`, `template.whereIsItUsed`) and plan a migration path; see `references/templates.md`, `references/groups.md`, `references/widgets.md`, and `references/media.md`.
 - **Avoid stuffing unstructured JSON into `meta` or `content` when a property, group or widget fits**.
@@ -57,7 +63,7 @@ Key topics:
   See `references/templates.md`, `references/entries.md`, `references/groups.md`, `references/widgets.md`, and `references/media.md`.
 
 - **Multi‑locale content**
-  Model `meta` and `content` per locale, use BCMS locales, and ensure frontends handle missing translations gracefully via types from `@bcms-types/ts`.
+  Model `meta` and `content` per locale, use BCMS locales, and ensure frontends handle missing translations gracefully using generated types (e.g. from `bcms/types/ts` or your project’s type package).
   See `references/entries.md` and `references/properties.md`.
 
 - **Asset‑heavy or image‑driven experiences**
@@ -68,13 +74,43 @@ Key topics:
   Prefer the official BCMS starters; otherwise, follow the framework‑specific guides, using the standard `Client` constructor, generated types, and the appropriate `@thebcms/components-*` package.
   See `references/frameworks.md`.
 
+- **AI assistants and IDE workflows (Cursor, Claude Code, etc.)**
+  Enable **MCP** on a dedicated API key, configure the MCP URL with least‑privilege template and media scopes, and use the exposed tools for content operations. Do not embed those keys in shipped apps.
+  See `references/mcp.md` and [BCMS MCP documentation](https://thebcms.com/docs/mcp).
+
+## BCMS MCP (agents and IDEs)
+
+BCMS hosts an MCP server so assistants can work with **entries** and **media** using a key that has **MCP** enabled. Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
+
+- **URL pattern**: `https://app.thebcms.com/api/v3/mcp?apiKey=<three-part-key>` (adjust host if your org uses a custom app URL). Matches [BCMS MCP docs](https://thebcms.com/docs/mcp).
+- **Transport**: Streamable HTTP; after `initialize`, send **`mcp-session-id`** on follow‑up requests.
+- **Scopes**: the dashboard can show per‑template GET / POST / PUT / DELETE, but [the product note](https://thebcms.com/docs/mcp) is that MCP currently supports **creating, reading, and updating** content only—treat **entry delete** as **not** available via MCP tools even if DELETE appears in key settings.
+- **Rich text**: entry bodies use **node trees** aligned with the docs (paragraphs, headings, lists, **image**, widget, etc.); use **`get_entry_pointer_link`** and **`get_media_pointer_link`** for internal BCMS links in link marks.
+
+Full tool names, troubleshooting, and MCP vs SDK guidance: **`references/mcp.md`**.
+
 ## Setup and Client Initialization
 
 - Always use **environment variables** for secrets, never hard‑code BCMS credentials.
 - Use separate **API keys per environment** (development, staging, production).
 - Prefer **scoped keys** with the minimum necessary permissions.
 
-Example client initialization (TypeScript):
+**Preferred for app starters (matches [Next.js](https://thebcms.com/docs/integrations/next-js) / [Nuxt](https://thebcms.com/docs/integrations/nuxt-js) docs):** one **three‑part API key** string in env (`keyId.secret.instanceId`) and a **single‑argument** client:
+
+```ts
+import { Client } from '@thebcms/client';
+
+// Private: reads BCMS_API_KEY from the environment by default
+export const bcmsPrivate = new Client({ injectSvg: true });
+
+// Public / browser-safe key (example for Next.js)
+export const bcmsPublic = new Client({
+  apiKey: process.env.NEXT_PUBLIC_BCMS_API_KEY,
+  injectSvg: true,
+});
+```
+
+**Explicit org, instance, and key id + secret** (fine for scripts and custom env layouts; see `ai/scripts/init-client.ts`):
 
 ```ts
 import { Client } from '@thebcms/client';
@@ -82,19 +118,12 @@ import { Client } from '@thebcms/client';
 export const bcms = new Client(
   process.env.BCMS_ORG_ID!,
   process.env.BCMS_INSTANCE_ID!,
-  {
-    id: process.env.BCMS_API_KEY_ID!,
-    secret: process.env.BCMS_API_KEY_SECRET!,
-  },
-  {
-    injectSvg: true, // inline SVG icons into HTML
-    useMemCache: true, // enable in‑memory caching
-    enableSocket: false, // disable websockets when not needed
-  },
+  { id: process.env.BCMS_API_KEY_ID!, secret: process.env.BCMS_API_KEY_SECRET! },
+  { injectSvg: true, useMemCache: true, enableSocket: false },
 );
 ```
 
-For more, including API key structure and environment setup, see `references/bcms-api-basics.md`.
+For env variable patterns and security, see `references/bcms-api-basics.md`.
 
 ## Working with Templates
 
@@ -194,9 +223,20 @@ Agents should:
 
 See `references/functions-webhooks.md` for full examples and security notes.
 
+## Local repo examples (`ai/scripts/`)
+
+Human developers (and agents with repo access) can run the TypeScript examples under [`ai/scripts/`](../../scripts/):
+
+- **`init-client.ts`** — construct `Client` from `BCMS_*` env vars.
+- **`call-function.ts`** — call a BCMS function by ID with a JSON body.
+
+These are **not** MCP; they illustrate SDK usage. See each file’s header for how to run them (e.g. `npx tsx` with env set).
+
+Repo-level notes for automation: **`ai/AGENTS.md`**. Change history for this skill pack: **`ai/CHANGELOG.md`**.
+
 ## Best Practices and Troubleshooting
 
-- Prefer TypeScript and generated BCMS types (e.g., `@bcms-types/ts`) where available.
+- Prefer TypeScript and generated BCMS types (`bcms/types/ts` after CLI pull, or your framework’s documented import path) where available.
 - Use caching (e.g., in‑memory or application‑level) for frequently read data.
 - Separate dev, staging and production environments and API keys.
 - On errors, check:

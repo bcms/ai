@@ -1,6 +1,6 @@
 ## Nuxt Integration
 
-This guide summarises how to integrate BCMS with a Nuxt project using the official Nuxt module.
+Aligned with [Getting Started with Nuxt.js and BCMS](https://thebcms.com/docs/integrations/nuxt-js).
 
 ### Quick start (CLI)
 
@@ -8,43 +8,27 @@ This guide summarises how to integrate BCMS with a Nuxt project using the offici
 npx @thebcms/cli create nuxt starter simple-blog
 ```
 
-The CLI sets up:
-
-- A BCMS project with sample content.
-- A Nuxt blog starter.
-- Environment configuration for BCMS.
+The CLI sets up BCMS sample content, scaffolds Nuxt, and writes env configuration.
 
 ### Manual setup
 
-1. Create a Nuxt project:
-
-   ```bash
-   npx nuxi@latest init my-project
-   ```
-
-2. Install BCMS Nuxt integration:
-
-   ```bash
-   npm i --save @thebcms/nuxt @thebcms/types
-   ```
-
-3. Configure `nuxt.config.ts`:
+1. Create a Nuxt app: `npx nuxi@latest init <project-name>`
+2. Install: `npm i --save @thebcms/nuxt @thebcms/types`
+3. Configure `nuxt.config.ts` as in the official guide (API keys as **strings** inside `options`):
 
    ```ts
    export default defineNuxtConfig({
      bcms: {
-       orgId: process.env.BCMS_ORG_ID,
-       instanceId: process.env.BCMS_INSTANCE_ID,
        privateClientOptions: {
-         key: {
-           id: process.env.BCMS_API_KEY_ID!,
-           secret: process.env.BCMS_API_KEY_SECRET!,
+         options: {
+           apiKey: process.env.BCMS_API_KEY!,
+           injectSvg: true,
          },
        },
        publicClientOptions: {
-         key: {
-           id: process.env.NUXT_PUBLIC_BCMS_API_KEY_ID!,
-           secret: process.env.NUXT_PUBLIC_BCMS_API_KEY_SECRET!,
+         options: {
+           apiKey: process.env.NUXT_PUBLIC_BCMS_API_KEY!,
+           injectSvg: true,
          },
        },
      },
@@ -52,8 +36,18 @@ The CLI sets up:
    });
    ```
 
-4. Use the injected composables:
+4. `.env`:
 
-   - `useBcmsPrivate()` – server‑side access (secure operations).
-   - `useBcmsPublic()` – client‑side access with public API keys.
+   ```bash
+   BCMS_API_KEY=<YOUR.API.KEY>
+   NUXT_PUBLIC_BCMS_API_KEY=<YOUR.PUBLIC.API.KEY>
+   ```
 
+5. Use composables anywhere in the app:
+
+   ```ts
+   const bcms = useBcmsPrivate();
+   const blogs = (await bcms.entry.getAll('blog')) as BlogEntry[];
+   ```
+
+If your generated types or module version expect `orgId` / `instanceId` / `key: { id, secret }` instead, follow the **module readme** or dashboard output for that version—the published Nuxt integration page above is the default reference.

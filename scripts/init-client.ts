@@ -1,9 +1,9 @@
 /**
  * init-client.ts
  *
- * Demonstrates how to instantiate the BCMS client using environment variables.
- * This script is intended as reference for the bcms Agent Skill and can be
- * adapted into real applications or scripts.
+ * Demonstrates the four-argument Client(orgId, instanceId, key, options) pattern
+ * with split env vars. Official integration guides often use a single BCMS_API_KEY
+ * string and `new Client({ injectSvg: true })` instead—see thebcms.com/docs/integrations.
  */
 
 import { Client } from '@thebcms/client';
