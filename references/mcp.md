@@ -22,7 +22,7 @@ Point your MCP client at the BCMS MCP URL with the key as a query parameter:
 {
   "mcpServers": {
     "bcms": {
-      "url": "https://app.thebcms.com/api/v3/mcp?apiKey=YOUR_MCP_KEY_HERE"
+      "url": "https://app.thebcms.com/api/v3/mcp?mcpKey=YOUR_MCP_KEY_HERE"
     }
   }
 }

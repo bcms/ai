@@ -82,7 +82,7 @@ Key topics:
 
 BCMS hosts an MCP server so assistants can work with **entries** and **media** using a key that has **MCP** enabled. Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
 
-- **URL pattern**: `https://app.thebcms.com/api/v3/mcp?apiKey=<three-part-key>` (adjust host if your org uses a custom app URL). Matches [BCMS MCP docs](https://thebcms.com/docs/mcp).
+- **URL pattern**: `https://app.thebcms.com/api/v3/mcp?mcpKey=<bcms-mcp-key>` (adjust host if your org uses a custom app URL). Matches [BCMS MCP docs](https://thebcms.com/docs/mcp).
 - **Transport**: Streamable HTTP; after `initialize`, send **`mcp-session-id`** on follow‑up requests.
 - **Scopes**: the dashboard can show per‑template GET / POST / PUT / DELETE, but [the product note](https://thebcms.com/docs/mcp) is that MCP currently supports **creating, reading, and updating** content only—treat **entry delete** as **not** available via MCP tools even if DELETE appears in key settings.
 - **Rich text**: entry bodies use **node trees** aligned with the docs (paragraphs, headings, lists, **image**, widget, etc.); use **`get_entry_pointer_link`** and **`get_media_pointer_link`** for internal BCMS links in link marks.
