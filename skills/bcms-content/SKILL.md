@@ -15,6 +15,8 @@ This skill ships a small executable CLI (`cli/bcms.mjs`) for **content operation
 
 For content **modeling**, SDK usage in application code, framework integrations, and the MCP server, use the companion **`bcms`** skill. Use this `bcms-content` skill when you want to *run a command and get a result* rather than write app code.
 
+**Setup guide:** [thebcms.com/agents](https://thebcms.com/agents) — MCP connection, skill install, and CLI examples.
+
 ## Setup (once)
 
 1. **Install dependencies** in this skill folder (it has its own `package.json` with one dependency):

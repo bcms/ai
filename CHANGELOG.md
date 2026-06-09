@@ -2,6 +2,12 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.3.2] — 2026-06-09
+
+### Changed
+
+- **`README.md`**, **`skills/bcms/SKILL.md`**, **`skills/bcms-content/SKILL.md`**: link to the agent setup guide at [thebcms.com/agents](https://thebcms.com/agents).
+
 ## [1.3.1] — 2026-06-09
 
 ### Fixed

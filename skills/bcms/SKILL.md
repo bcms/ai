@@ -15,6 +15,8 @@ description: >
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 The agent should keep this file under roughly 500 lines and load deeper guides only when needed.
 
+**Setup guide:** [thebcms.com/agents](https://thebcms.com/agents) — MCP connection, skill install, and the content CLI.
+
 It covers two modes: **building** with the `@thebcms/client` SDK (application code, CI, scripts) and **operating** content through BCMS **MCP** tools (when the agent has them configured). Use the SDK for app code and builds; use MCP tools for content operations when available—see [BCMS MCP (agents and IDEs)](#bcms-mcp-agents-and-ides) and `references/mcp.md`.
 
 Key topics:
