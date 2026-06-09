@@ -1,18 +1,21 @@
 ---
-name: bcms-best-practices
+name: bcms
 description: >
-  BCMS headless CMS: @thebcms/client SDK, templates, entries, groups, widgets, media, functions,
-  webhooks, API keys and permissions. Model Context Protocol (MCP) server for Cursor, Claude Code,
-  and other MCP clients—scoped keys, Streamable HTTP, entry/media tools. Use for content modeling,
-  integrations, and agent-driven content operations.
+  BCMS headless CMS for coding agents. Build with the @thebcms/client SDK (templates, entries,
+  groups, widgets, media, functions, webhooks, API keys, permissions) and operate content through
+  the BCMS Model Context Protocol (MCP) server—scoped keys, Streamable HTTP, entry/media tools.
+  Use for content modeling, framework integrations (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite),
+  and agent-driven content operations.
 ---
 
-# BCMS Skills
+# BCMS Skill
 
-**Canonical copy:** edit this file at `ai/skills/bcms/SKILL.md`. The **Claude Code** and **Cursor** plugins package the same file via **symlinks** at `ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md` and `ai/providers/cursor/plugin/skills/bcms-best-practices/SKILL.md` (see `ai/README.md` and `ai/AGENTS.md`). On Windows, if symlinks are unavailable, copy this file into those paths when publishing.
+**Canonical copy:** edit this file at `ai/skills/bcms/SKILL.md`. The **Claude Code** and **Cursor** plugins package the same file via symlinks under `ai/providers/*/plugin/skills/bcms/` (see `ai/README.md` and `ai/AGENTS.md`). On Windows, if symlinks are unavailable, copy this file into those paths when publishing.
 
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 The agent should keep this file under roughly 500 lines and load deeper guides only when needed.
+
+It covers two modes: **building** with the `@thebcms/client` SDK (application code, CI, scripts) and **operating** content through BCMS **MCP** tools (when the agent has them configured). Use the SDK for app code and builds; use MCP tools for content operations when available—see [BCMS MCP (agents and IDEs)](#bcms-mcp-agents-and-ides) and `references/mcp.md`.
 
 Key topics:
 

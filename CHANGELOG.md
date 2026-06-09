@@ -2,6 +2,33 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.2.0] — 2026-06-09
+
+### Changed
+
+- **Single skill**: merged `bcms-best-practices` and `bcms-mcp` into one skill named **`bcms`** (`skills/bcms/SKILL.md`). Install with `npx skills add bcms/ai --skill bcms`. It covers both `@thebcms/client` SDK building and MCP-based content operations; `references/mcp.md` ships in the bundle.
+- **`skills/bundle.json`**: single `bcms` entry (`include: ["*"]`).
+- **Plugins**: renamed plugin skill folders to `skills/bcms/` in both the Cursor and Claude bundles; removed the standalone `bcms-mcp` plugin skill.
+- **`README.md`**, **`AGENTS.md`**, **`providers/cursor/plugin/README.md`**: updated install command and layout to the single-skill model.
+
+### Removed
+
+- **`skills/bcms-mcp/`**: folded into the `bcms` skill.
+- Stray `skills/bcms/.git/` GitKraken litter and the committed `skills/bcms/references` symlink (now a real, synced directory).
+
+## [1.1.5] — 2026-06-09
+
+### Added
+
+- **`skills/bundle.json`**: declares which canonical `references/` files each skill ships.
+- **`scripts/sync-skill-references.mjs`**: copies bundled references into `skills/*/references/` for skills.sh and ClawHub installs (`--check` for CI).
+- **Generated `skills/*/references/`**: committed bundles so `npx skills add bcms/ai --skill <name>` includes reference docs (e.g. `bcms-mcp` ships `references/mcp.md`).
+
+### Changed
+
+- **`skills/bcms-mcp/SKILL.md`**: in-skill links (`references/mcp.md`); points SDK/framework work at `bcms-best-practices` install command.
+- **`README.md`**, **`AGENTS.md`**: document per-skill install commands and sync workflow.
+
 ## [1.1.4] — 2026-03-31
 
 ### Added

@@ -14,9 +14,8 @@ Official product docs: [thebcms.com/docs](https://thebcms.com/docs/).
 | Path | Role |
 |------|------|
 | `.cursor-plugin/plugin.json` | Cursor plugin manifest |
-| `skills/bcms-best-practices/` | Symlinked `SKILL.md` + `references/` → canonical [`skills/bcms`](../../skills/bcms) and [`references/`](../../references/) |
-| `skills/bcms-mcp/` | Symlinked thin MCP skill → [`skills/bcms-mcp`](../../skills/bcms-mcp) |
-| `references` | Symlink → [`references/`](../../references/) (so `bcms-mcp` relative links resolve) |
+| `skills/bcms/` | Symlinked `SKILL.md` + `references/` → canonical [`skills/bcms`](../../skills/bcms) and [`references/`](../../references/) |
+| `references` | Symlink → [`references/`](../../references/) (so relative skill links resolve) |
 
 On **Windows**, if git or the filesystem does not support symlinks, **copy** the canonical `SKILL.md` files and the `references` directory into these paths when publishing or installing locally.
 

@@ -1,0 +1,6 @@
+{
+  "bcms": {
+    "path": "skills/bcms",
+    "include": ["*"]
+  }
+}

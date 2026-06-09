@@ -1,18 +1,25 @@
 # BCMS Skill
 
+Install the skill (requires [skills CLI](https://skills.sh/)):
+
+```bash
+npx skills add bcms/ai --skill bcms
+```
+
 This skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`.
 
-**Where things live in this repo:** canonical reference markdown is under [`ai/references/`](references/). The packaged skill entry point is [`ai/skills/bcms/SKILL.md`](skills/bcms/SKILL.md); `references/*.md` paths in that file resolve to `ai/references/` here (and the Claude plugin skill symlinks the same `references` folder).
+**Where things live in this repo:** canonical reference markdown is under [`ai/references/`](references/). Skill folders under [`ai/skills/`](skills/) include generated `references/` copies for skills.sh installs — run `node scripts/sync-skill-references.mjs` after editing canonical references (see [`skills/bundle.json`](skills/bundle.json)).
 
 ### Repository layout (1.1+)
 
 | Path | Role |
 |------|------|
-| [`ai/skills/bcms/SKILL.md`](skills/bcms/SKILL.md) | **Canonical** skill—edit here. |
-| [`ai/providers/claude/plugin/skills/bcms-best-practices/SKILL.md`](providers/claude/plugin/skills/bcms-best-practices/SKILL.md) | Symlink to the canonical skill (Claude Code bundle). On Windows without symlink support, copy the canonical file when publishing. |
+| [`ai/skills/bcms/SKILL.md`](skills/bcms/SKILL.md) | **Canonical** `bcms` skill—edit here. Covers SDK building **and** MCP content operations. |
+| [`ai/skills/bcms/references/`](skills/bcms/references/) | Generated copies of the canonical references, bundled for skills.sh installs (`node scripts/sync-skill-references.mjs`). |
+| [`ai/providers/claude/plugin/skills/bcms/SKILL.md`](providers/claude/plugin/skills/bcms/SKILL.md) | Symlink to the canonical skill (Claude Code bundle). On Windows without symlink support, copy the canonical file when publishing. |
 | [`ai/providers/cursor/plugin/`](providers/cursor/plugin/) | **Cursor** plugin bundle (skills + symlinks); marketplace manifest [`ai/.cursor-plugin/marketplace.json`](.cursor-plugin/marketplace.json). See [`providers/cursor/plugin/README.md`](providers/cursor/plugin/README.md). |
-| [`ai/skills/bcms-mcp/SKILL.md`](skills/bcms-mcp/SKILL.md) | Optional thin skill for MCP-only workflows; points at [`references/mcp.md`](references/mcp.md). |
-| [`ai/scripts/`](scripts/) | Local TypeScript examples (`init-client.ts`, `call-function.ts`); run `node scripts/validate-cursor-plugin.mjs` to validate the Cursor plugin layout. |
+| [`ai/skills/bundle.json`](skills/bundle.json) | Which reference files the skill ships (`node scripts/sync-skill-references.mjs`). |
+| [`ai/scripts/`](scripts/) | SDK examples, `validate-cursor-plugin.mjs`, `sync-skill-references.mjs`. |
 | [`ai/AGENTS.md`](AGENTS.md) | Layout and integration notes for maintainers. |
 | [`ai/CHANGELOG.md`](CHANGELOG.md) | Skill pack version history. |
 

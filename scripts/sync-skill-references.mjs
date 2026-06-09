@@ -1,0 +1,198 @@
+#!/usr/bin/env node
+
+/**
+ * Copy canonical references/ into each skill folder for skills.sh / ClawHub installs.
+ *
+ * Edit references/*.md and skills/bundle.json, then run:
+ *   node scripts/sync-skill-references.mjs
+ *
+ * CI / pre-commit:
+ *   node scripts/sync-skill-references.mjs --check
+ */
+
+import { createHash } from "node:crypto";
+import { promises as fs } from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(__dirname, "..");
+const referencesRoot = path.join(repoRoot, "references");
+const bundlePath = path.join(repoRoot, "skills", "bundle.json");
+const generatedMarker = ".synced-from-references";
+
+async function pathExists(targetPath) {
+  try {
+    await fs.access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function hashFile(filePath) {
+  const content = await fs.readFile(filePath);
+  return createHash("sha256").update(content).digest("hex");
+}
+
+async function listCanonicalReferences() {
+  const entries = await fs.readdir(referencesRoot, { withFileTypes: true });
+  return entries.filter((entry) => entry.isFile() && entry.name.endsWith(".md")).map((entry) => entry.name);
+}
+
+async function loadBundle() {
+  const raw = await fs.readFile(bundlePath, "utf8");
+  const bundle = JSON.parse(raw);
+
+  if (!bundle || typeof bundle !== "object" || Array.isArray(bundle)) {
+    throw new Error("skills/bundle.json must be an object keyed by skill name.");
+  }
+
+  return bundle;
+}
+
+function resolveIncludeList(include, allReferences) {
+  if (!Array.isArray(include) || include.length === 0) {
+    throw new Error('Each skill must declare a non-empty "include" array.');
+  }
+
+  if (include.includes("*")) {
+    return [...allReferences].sort();
+  }
+
+  return [...new Set(include)].sort();
+}
+
+async function ensureOutputDirectory(outputDir) {
+  if (await pathExists(outputDir)) {
+    const stat = await fs.lstat(outputDir);
+    if (stat.isSymbolicLink()) {
+      await fs.unlink(outputDir);
+    }
+  }
+
+  await fs.mkdir(outputDir, { recursive: true });
+}
+
+async function syncSkill(skillName, config, allReferences, checkOnly) {
+  if (!config || typeof config !== "object") {
+    throw new Error(`${skillName}: invalid bundle entry.`);
+  }
+
+  const skillDir = path.join(repoRoot, config.path);
+  const outputDir = path.join(skillDir, "references");
+
+  if (!(await pathExists(skillDir))) {
+    throw new Error(`${skillName}: skill directory missing at ${config.path}`);
+  }
+
+  const skillFile = path.join(skillDir, "SKILL.md");
+  if (!(await pathExists(skillFile))) {
+    throw new Error(`${skillName}: missing SKILL.md at ${config.path}/SKILL.md`);
+  }
+
+  const files = resolveIncludeList(config.include, allReferences);
+
+  for (const fileName of files) {
+    const sourcePath = path.join(referencesRoot, fileName);
+    if (!(await pathExists(sourcePath))) {
+      throw new Error(`${skillName}: canonical reference not found: references/${fileName}`);
+    }
+  }
+
+  const planned = new Map(files.map((fileName) => [fileName, path.join(outputDir, fileName)]));
+
+  if (checkOnly) {
+    for (const [fileName, targetPath] of planned) {
+      const sourcePath = path.join(referencesRoot, fileName);
+      if (!(await pathExists(targetPath))) {
+        return { skillName, status: "outdated", detail: `missing ${config.path}/references/${fileName}` };
+      }
+
+      const [sourceHash, targetHash] = await Promise.all([hashFile(sourcePath), hashFile(targetPath)]);
+      if (sourceHash !== targetHash) {
+        return {
+          skillName,
+          status: "outdated",
+          detail: `stale ${config.path}/references/${fileName} (run node scripts/sync-skill-references.mjs)`,
+        };
+      }
+    }
+
+    if (await pathExists(outputDir)) {
+      const existing = (await fs.readdir(outputDir)).filter((name) => name.endsWith(".md"));
+      const extras = existing.filter((name) => !files.includes(name));
+      if (extras.length > 0) {
+        return {
+          skillName,
+          status: "outdated",
+          detail: `extra files in ${config.path}/references/: ${extras.join(", ")}`,
+        };
+      }
+    } else if (files.length > 0) {
+      return { skillName, status: "outdated", detail: `missing ${config.path}/references/` };
+    }
+
+    return { skillName, status: "ok" };
+  }
+
+  await ensureOutputDirectory(outputDir);
+
+  for (const [fileName, targetPath] of planned) {
+    await fs.copyFile(path.join(referencesRoot, fileName), targetPath);
+  }
+
+  const existing = await fs.readdir(outputDir);
+  for (const name of existing) {
+    if (name === generatedMarker || !name.endsWith(".md")) {
+      continue;
+    }
+    if (!files.includes(name)) {
+      await fs.unlink(path.join(outputDir, name));
+    }
+  }
+
+  await fs.writeFile(
+    path.join(outputDir, generatedMarker),
+    "Generated by scripts/sync-skill-references.mjs — edit references/ at repo root, then re-run sync.\n",
+    "utf8"
+  );
+
+  return { skillName, status: "synced", count: files.length };
+}
+
+async function main() {
+  const checkOnly = process.argv.includes("--check");
+  const bundle = await loadBundle();
+  const allReferences = await listCanonicalReferences();
+  const results = [];
+
+  for (const [skillName, config] of Object.entries(bundle)) {
+    results.push(await syncSkill(skillName, config, allReferences, checkOnly));
+  }
+
+  if (checkOnly) {
+    const outdated = results.filter((result) => result.status === "outdated");
+    if (outdated.length > 0) {
+      console.error("Skill reference bundles are out of date:");
+      for (const result of outdated) {
+        console.error(`- ${result.skillName}: ${result.detail}`);
+      }
+      process.exit(1);
+    }
+
+    console.log("Skill reference bundles are up to date.");
+    for (const result of results) {
+      console.log(`- ${result.skillName}: ok`);
+    }
+    return;
+  }
+
+  console.log("Synced skill reference bundles:");
+  for (const result of results) {
+    console.log(`- ${result.skillName}: ${result.count} file(s)`);
+  }
+}
+
+await main();
