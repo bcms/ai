@@ -12,6 +12,8 @@ npx skills add bcms/ai --skill bcms-content
 
 The **`bcms`** skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`. The **`bcms-content`** skill ships a small CLI (`cli/bcms.mjs`, wrapping `@thebcms/client`) so agents can create / update / delete / list entries and upload media with a single API key — the same key used for the BCMS MCP. See [`skills/bcms-content/SKILL.md`](skills/bcms-content/SKILL.md).
 
+**Setup guide:** [thebcms.com/agents](https://thebcms.com/agents) — MCP connection, skill install, and the content CLI.
+
 **Where things live in this repo:** canonical reference markdown is under [`ai/references/`](references/). Skill folders under [`ai/skills/`](skills/) include generated `references/` copies for skills.sh installs — run `node scripts/sync-skill-references.mjs` after editing canonical references (see [`skills/bundle.json`](skills/bundle.json)).
 
 ### Repository layout (1.1+)
@@ -90,11 +92,11 @@ Key topics:
 
 - **AI assistants and IDE workflows (Cursor, Claude Code, etc.)**
   Enable **MCP** on a dedicated API key, configure the MCP URL with least‑privilege template and media scopes, and use the exposed tools for content operations. Do not embed those keys in shipped apps.
-  See `references/mcp.md` and [BCMS MCP documentation](https://thebcms.com/docs/mcp).
+  See [thebcms.com/agents](https://thebcms.com/agents), `references/mcp.md`, and [BCMS MCP documentation](https://thebcms.com/docs/mcp).
 
 ## BCMS MCP (agents and IDEs)
 
-BCMS hosts an MCP server so assistants can work with BCMS **content and schema** using a key that has **MCP** enabled. Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
+BCMS hosts an MCP server so assistants can work with BCMS **content and schema** using a key that has **MCP** enabled. Agent landing page: [thebcms.com/agents](https://thebcms.com/agents). Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
 
 - **URL pattern**: `https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>` (the query param is **`mcpKey`**; adjust host if your org uses a custom app URL).
 - **Auth**: the three‑part API key must have the **MCP flag** enabled, or the endpoint returns `403`.
