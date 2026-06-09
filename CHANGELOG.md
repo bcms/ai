@@ -2,6 +2,32 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.3.1] — 2026-06-09
+
+### Fixed
+
+- **MCP documentation accuracy pass** — reconciled `references/mcp.md` (and the MCP sections of `skills/bcms/SKILL.md`, `skills/bcms-content/SKILL.md`, and `README.md`) with the live BCMS MCP server:
+  - **Delete is available over MCP.** Removed the stale "MCP currently supports create/read/update only" / "treat entry delete as not available" claims. The server exposes full CRUD on entries **and** on templates, groups, and widgets (plus entry statuses, entry history, languages, media, pointer links, and trash).
+  - **Tool names corrected** to the real fixed **kebab-case** tools (e.g. `create-entries`, `update-entries`, `delete-entries`, `get-all-entries-by-template-id`, `get-entry-pointer-link`) — IDs are passed as arguments rather than encoded in per-template tool names. Removed the non-existent `upload-media-file` (base64) tool; media files upload via the pre-signed URL from `request-upload-media-url`.
+  - **Connection details resolved**: endpoint `/api/v3/mcp`, key query parameter **`mcpKey`** (not `apiKey`), three-part key requiring the **MCP flag** (`403` otherwise), Streamable HTTP transport with the **`mcp-session-id`** header.
+  - **Rich text corrected** to the real node/mark sets (no `image` or `blockquote` node — media embeds use the `media` node) and documented the MCP **resources** (`Entry`, `Important`, `Update Instructions`) and the `propChanges` schema-update flow.
+
+## [1.3.0] — 2026-06-09
+
+### Added
+
+- **New executable skill `bcms-content`** (`skills/bcms-content/`): a thin, agent-facing CLI for content operations. Install with `npx skills add bcms/ai --skill bcms-content`.
+  - `cli/bcms.mjs` wraps `@thebcms/client` and exposes `create-entry`, `update-entry`, `delete-entry`, `list-entries`, and `upload-media`. Auth via `BCMS_API_KEY` (the same three-part key used for the BCMS MCP). `update-entry` preserves existing content when only `meta` changes; `delete-entry` gives a scriptable CLI path for removing entries.
+  - `package.json` declares a single dependency (`@thebcms/client`) and a `bcms-content` bin; the agent runs `npm install` once in the skill folder.
+  - `SKILL.md` documents setup, commands, the `--data` JSON shape, rich-text node format, and CLI-vs-MCP-vs-SDK guidance.
+- **`skills/bundle.json`**: `bcms-content` entry bundling a focused reference subset (`entries`, `media`, `properties`, `permissions`, `mcp`).
+- **Plugins**: `bcms-content` skill symlinks (`SKILL.md` + `references/`) added to both the Cursor and Claude bundles.
+
+### Changed
+
+- **`README.md`**, **`AGENTS.md`**: document the second skill, its install command, the bundled-CLI runtime, and the new plugin symlinks.
+- **Plugin manifests**: version bumped to **1.3.0**; descriptions note the executable content CLI.
+
 ## [1.2.0] — 2026-06-09
 
 ### Changed

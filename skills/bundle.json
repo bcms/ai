@@ -2,5 +2,9 @@
   "bcms": {
     "path": "skills/bcms",
     "include": ["*"]
+  },
+  "bcms-content": {
+    "path": "skills/bcms-content",
+    "include": ["entries.md", "media.md", "properties.md", "permissions.md", "mcp.md"]
   }
 }

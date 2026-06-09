@@ -1,8 +1,9 @@
 /**
  * upload-media.ts
  *
- * Demonstrates how to create a directory and upload a file to BCMS.
- * This script assumes you already have a valid media-capable API key.
+ * Uploads a local file to BCMS with `@thebcms/client` v2. Media uploads need a
+ * one-time upload token, and the file is sent as a web `File` (Node 20+).
+ * Assumes a media-capable API key in BCMS_API_KEY.
  */
 
 import * as fs from 'node:fs';
@@ -12,7 +13,7 @@ import { createBcmsClient } from './init-client';
 async function main() {
   const filePath = process.argv[2];
   if (!filePath) {
-    console.error('Usage: ts-node upload-media.ts <path-to-file>');
+    console.error('Usage: npx tsx upload-media.ts <path-to-file>');
     process.exit(1);
   }
 
@@ -21,22 +22,23 @@ async function main() {
   const fileName = path.basename(filePath);
   const buffer = await fs.promises.readFile(filePath);
 
-  // Ensure directory exists (or create a dedicated one for this example).
-  const dir = await bcms.media.createDir({
-    name: 'uploads',
-    parentId: null,
-  });
+  // Create (or reuse) a directory for this example upload.
+  const dir = await bcms.media.createDir({ name: 'uploads' });
 
-  const file = await bcms.media.createFile({
-    buffer,
-    fileName,
-    mime: 'application/octet-stream',
-    dirId: dir._id,
+  // Uploads require a one-time, short-lived upload token.
+  const uploadToken = await bcms.media.requestUploadToken();
+  const file = new File([buffer], fileName, { type: 'application/octet-stream' });
+
+  const media = await bcms.media.createFile({
+    uploadToken,
+    file,
+    name: fileName,
+    parentId: dir._id,
   });
 
   console.log('Uploaded media file:', {
-    id: file._id,
-    name: file.name,
+    id: media._id,
+    name: media.name,
   });
 }
 

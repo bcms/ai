@@ -1,25 +1,33 @@
 /**
  * manage-entries.ts
  *
- * Example helpers for creating, updating, deleting and listing BCMS entries.
- * These functions are intentionally simple and can be adapted as needed.
+ * Example helpers for creating, updating, deleting and listing BCMS entries
+ * with `@thebcms/client` v2. Entry `meta` is keyed by property name and entry
+ * `content` uses the node-tree shape (paragraphs, headings, lists, etc.).
  */
 
 import { createBcmsClient } from './init-client';
 
 const bcms = createBcmsClient();
+const LNG = 'en';
 
 export async function createBlogEntry() {
   const entry = await bcms.entry.create('blog', {
-    meta: {
-      title: 'My post',
-      slug: 'my-post',
-    },
-    content: {
-      en: {
-        body: 'Hello BCMS!',
+    statuses: [],
+    meta: [
+      {
+        lng: LNG,
+        data: { title: 'My post', slug: 'my-post' },
       },
-    },
+    ],
+    content: [
+      {
+        lng: LNG,
+        nodes: [
+          { type: 'paragraph', content: [{ type: 'text', text: 'Hello BCMS!' }] },
+        ],
+      },
+    ],
   });
 
   console.log('Created entry:', entry._id);
@@ -28,10 +36,11 @@ export async function createBlogEntry() {
 
 export async function updateBlogEntry(entryId: string) {
   const updated = await bcms.entry.update('blog', entryId, {
-    meta: {
-      title: 'My updated post',
-      slug: 'my-updated-post',
-    },
+    lng: LNG,
+    meta: { title: 'My updated post', slug: 'my-updated-post' },
+    content: [
+      { type: 'paragraph', content: [{ type: 'text', text: 'Updated body.' }] },
+    ],
   });
 
   console.log('Updated entry:', updated._id);
@@ -39,17 +48,17 @@ export async function updateBlogEntry(entryId: string) {
 }
 
 export async function deleteBlogEntry(entryId: string) {
-  await bcms.entry.delete('blog', entryId);
+  await bcms.entry.deleteById(entryId, 'blog');
   console.log('Deleted entry:', entryId);
 }
 
 export async function listDraftBlogEntries() {
   const entries = await bcms.entry.getAllByStatus('blog', 'draft');
-  console.log('Draft entries:', entries.map((e: any) => e._id));
+  console.log('Draft entries:', entries.map((e) => e._id));
   return entries;
 }
 
-// If executed directly, demonstrate a simple lifecycle in dry‑run style.
+// If executed directly, demonstrate a simple lifecycle.
 if (require.main === module) {
   (async () => {
     const created = await createBlogEntry();
@@ -62,5 +71,3 @@ if (require.main === module) {
     process.exitCode = 1;
   });
 }
-// Placeholder: script to create, update, and delete BCMS entries.
-// Implement entry management logic using the BCMS client here.

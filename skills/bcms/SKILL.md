@@ -40,7 +40,7 @@ Key topics:
 - **Always isolate secrets**: store the **three‑part API key** (`keyId.secret.instanceId`) in environment variables (e.g. `BCMS_API_KEY`, plus a public key var where the framework docs require it), use separate keys per environment (dev/stage/prod), and prefer scoped keys, especially for media delivery; see `references/bcms-api-basics.md` and `references/permissions.md`.
 - **Design for localisation**: when sites are multi‑lingual, use BCMS locales and model `meta`/`content` per locale; see `references/entries.md` and `references/properties.md`.
 - **Evolve schemas, don't break them**: when changing content models, add or migrate fields via templates and groups; avoid destructive changes on production data; see `references/templates.md` and `references/groups.md`.
-- **MCP when the agent has BCMS tools**: if the environment exposes BCMS MCP tools, use them for listing templates and entries, creating or updating entries (within key scopes), and media discovery. Use `@thebcms/client` for application code, builds, and anything outside MCP (see `references/mcp.md`).
+- **MCP when the agent has BCMS tools**: if the environment exposes BCMS MCP tools, use them for content and schema operations — listing, creating, updating, and **deleting** entries, templates, groups, and widgets, plus media discovery and uploads. Use `@thebcms/client` for application code, builds, and anything outside MCP (see `references/mcp.md`).
 
 ## Patterns to avoid (and what to do instead)
 
@@ -83,14 +83,15 @@ Key topics:
 
 ## BCMS MCP (agents and IDEs)
 
-BCMS hosts an MCP server so assistants can work with **entries** and **media** using a key that has **MCP** enabled. Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
+BCMS hosts an MCP server so assistants can work with BCMS **content and schema** using a key that has **MCP** enabled. Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
 
-- **URL pattern**: `https://app.thebcms.com/api/v3/mcp?mcpKey=<bcms-mcp-key>` (adjust host if your org uses a custom app URL). Matches [BCMS MCP docs](https://thebcms.com/docs/mcp).
+- **URL pattern**: `https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>` (the query param is **`mcpKey`**; adjust host if your org uses a custom app URL).
+- **Auth**: the three‑part API key must have the **MCP flag** enabled, or the endpoint returns `403`.
 - **Transport**: Streamable HTTP; after `initialize`, send **`mcp-session-id`** on follow‑up requests.
-- **Scopes**: the dashboard can show per‑template GET / POST / PUT / DELETE, but [the product note](https://thebcms.com/docs/mcp) is that MCP currently supports **creating, reading, and updating** content only—treat **entry delete** as **not** available via MCP tools even if DELETE appears in key settings.
-- **Rich text**: entry bodies use **node trees** aligned with the docs (paragraphs, headings, lists, **image**, widget, etc.); use **`get_entry_pointer_link`** and **`get_media_pointer_link`** for internal BCMS links in link marks.
+- **Capabilities**: fixed **kebab‑case** tools (IDs are passed as arguments, not encoded in tool names) covering full CRUD on **entries** (including **delete**) and on **templates / groups / widgets**, plus entry statuses, entry history, languages, media (list, folders, pre‑signed upload URL), pointer links, and trash. The full tool set is exposed to any MCP‑enabled key.
+- **Rich text**: entry bodies use **node trees** (`paragraph`, `heading`, `bulletList`/`orderedList`, `listItem`, `text`, `codeBlock`, `hardBreak`, `horizontalRule`, `widget`, `media` — there is **no** `image` node); use **`get-entry-pointer-link`** and **`get-media-pointer-link`** for internal BCMS links in link marks.
 
-Full tool names, troubleshooting, and MCP vs SDK guidance: **`references/mcp.md`**.
+Full tool names, resources, troubleshooting, and MCP vs SDK guidance: **`references/mcp.md`**.
 
 ## Setup and Client Initialization
 

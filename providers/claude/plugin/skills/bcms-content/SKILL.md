@@ -1,0 +1,1 @@
+../../../../../skills/bcms-content/SKILL.md
