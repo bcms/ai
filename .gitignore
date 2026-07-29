@@ -2,3 +2,5 @@
 skills-lock.json
 
 node_modules/
+
+dist/packages/

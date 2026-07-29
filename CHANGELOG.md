@@ -2,6 +2,28 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.4.0] — 2026-07-29
+
+### Added
+
+- **`catalog.json`** — the single canonical source for versions, install commands, registry URLs, publication status, client support labels, MCP metadata, and CLI capabilities. Every other version declaration (plugin manifests, marketplace manifests, CLI `package.json`, skill frontmatter, `CHANGELOG` headings) is validated against it.
+- **Root `package.json`** with npm scripts: `sync`, `check`, `package`, `validate`, `validate:release`, `build:agent-resources`, `test`, `test:integration`.
+- **Release output for the website** (`dist/agent-resources/`): `release-manifest.json` (consumed by `bcms/site`), `agent-skills-index.json` (shaped for a future `/.well-known/agent-skills/index.json`), versioned skill archives under `artifacts/` (`bcms-skill-<version>.zip`, `bcms-content-skill-<version>.zip`, reproducible, with embedded per-file checksum manifests), and `checksums.json` (SHA-256).
+- **Validation scripts**: `validate-catalog.mjs` (version consistency, install-command shape, publication/support claims), `validate-skills.mjs` (bundle coverage, frontmatter versions, broken/escaping relative links, unreferenced references), `validate-claude-plugin.mjs`, `scan-secrets.mjs` (secret scanning over skills, plugins, and generated artifacts), and `validate-release.mjs` (the full release gate, including artifact staleness detection and CLI tests).
+- **Copy-mode plugin packaging** (`scripts/package-plugins.mjs`): materialises the Cursor and Claude plugin trees under `dist/packages/` with real file copies instead of symlinks, for Windows and other environments without symlink support.
+- **`bcms-content` CLI machine mode** (`1.1.0`): `--json` (stable `{ ok, data }` / `{ ok, error: { code, message, details } }` envelopes on stdout, diagnostics on stderr), `--yes`, `--dry-run`, documented error codes and exit codes, non-TTY detection, confirmation required for `delete-entry`, and API-error sanitisation (keys and secret query parameters are redacted).
+- **CLI tests** (`skills/bcms-content/test/`): every command, flag, and error path against a mocked `@thebcms/client`; an optional integration path activates only when `BCMS_TEST_API_KEY` is set.
+- **CI** (`.github/workflows/ci.yml`): runs `npm run validate:release` on pushes and pull requests.
+- **Skill frontmatter versions**: `skills/bcms/SKILL.md` (`1.4.0`) and `skills/bcms-content/SKILL.md` (`1.1.0`) now declare their canonical versions.
+
+### Changed
+
+- **Version alignment**: Cursor marketplace metadata (was `1.1.4`) and Claude marketplace metadata/plugin entry (was `1.0.0`) now match the pack version; the `bcms-content` CLI package version moved from `0.1.0` to `1.1.0`.
+- **`.claude-plugin/marketplace.json`**: the plugin `source` now points at `./providers/claude/plugin` (it previously pointed at the repo root, where no `plugin.json` exists).
+- **Portable links**: `skills/bcms/SKILL.md` and `references/bcms-api-basics.md` no longer link outside the skill folder (`../../scripts/…`); those links now use GitHub URLs so installed skill copies do not contain broken paths.
+- **`AGENTS.md`**, **`README.md`**: document the catalog workflow, release commands, generated `dist/agent-resources/` output, and corrected reference filenames (`framework-next.md` / `framework-astro.md`).
+- **`skills/bcms-content/SKILL.md`**: documents machine mode (flags, envelopes, error codes, exit codes, retry safety) and the confirmation model for destructive commands.
+
 ## [1.3.2] — 2026-06-09
 
 ### Changed

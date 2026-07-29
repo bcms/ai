@@ -29,7 +29,7 @@ The official SDK is `@thebcms/client`. Common options:
 
 [Integration guides](https://thebcms.com/docs/integrations) use the **options‑only** constructor: `new Client({ injectSvg: true })` with `BCMS_API_KEY` set, or `new Client({ apiKey: process.env...., injectSvg: true })` for a public key.
 
-See `SKILL.md` and [`ai/scripts/init-client.ts`](../scripts/init-client.ts) for concise examples.
+See `SKILL.md` and [`ai/scripts/init-client.ts`](https://github.com/bcms/ai/blob/main/scripts/init-client.ts) for concise examples.
 
 ### General best‑practices
 

@@ -1,5 +1,6 @@
 ---
 name: bcms
+version: 1.4.0
 description: >
   BCMS headless CMS for coding agents. Build with the @thebcms/client SDK (templates, entries,
   groups, widgets, media, functions, webhooks, API keys, permissions) and operate content through
@@ -18,6 +19,17 @@ The agent should keep this file under roughly 500 lines and load deeper guides o
 **Setup guide:** [thebcms.com/agents](https://thebcms.com/agents) — MCP connection, skill install, and the content CLI.
 
 It covers two modes: **building** with the `@thebcms/client` SDK (application code, CI, scripts) and **operating** content through BCMS **MCP** tools (when the agent has them configured). Use the SDK for app code and builds; use MCP tools for content operations when available—see [BCMS MCP (agents and IDEs)](#bcms-mcp-agents-and-ides) and `references/mcp.md`.
+
+## When to use what
+
+This skill (`bcms`) is **guidance**: SDK usage, content modeling, framework integration, MCP tools, permissions, security, and schema operations. The companion **`bcms-content`** skill is **executable tooling**: a CLI for entry operations, media uploads, deterministic scripts, CI workflows, and JSON output. They are not interchangeable.
+
+| You want to… | Use |
+|---|---|
+| Model content, integrate a framework, write app code | This skill's guidance + the `@thebcms/client` SDK |
+| Operate content interactively from an agent with BCMS tools configured | **MCP** (`references/mcp.md`) |
+| Run a scripted, deterministic content operation in a terminal, CI, or agent loop | The **`bcms-content`** CLI (install: `npx skills add bcms/ai --skill bcms-content`) |
+| Fetch or mutate content from application code, builds, or servers | The **SDK** (`@thebcms/client`) |
 
 Key topics:
 
@@ -116,7 +128,7 @@ export const bcmsPublic = new Client({
 });
 ```
 
-**Scripts and servers:** set `BCMS_API_KEY` to the same three‑part string and use `new Client({ injectSvg: true, useMemCache: true, enableSocket: false })` (see [`ai/scripts/init-client.ts`](../../scripts/init-client.ts)). Details match [thebcms.com/docs](https://thebcms.com/docs) integration guides.
+**Scripts and servers:** set `BCMS_API_KEY` to the same three‑part string and use `new Client({ injectSvg: true, useMemCache: true, enableSocket: false })` (see [`ai/scripts/init-client.ts`](https://github.com/bcms/ai/blob/main/scripts/init-client.ts)). Details match [thebcms.com/docs](https://thebcms.com/docs) integration guides.
 
 For env variable patterns and security, see `references/bcms-api-basics.md`.
 
@@ -220,7 +232,7 @@ See `references/functions-webhooks.md` for full examples and security notes.
 
 ## Local repo examples (`ai/scripts/`)
 
-Human developers (and agents with repo access) can run the TypeScript examples under [`ai/scripts/`](../../scripts/):
+Human developers (and agents with repo access) can run the TypeScript examples under [`ai/scripts/`](https://github.com/bcms/ai/tree/main/scripts):
 
 - **`init-client.ts`** — construct `Client` with `BCMS_API_KEY` (three‑part key).
 - **`call-function.ts`** — call a BCMS function by ID with a JSON body (`BCMS_API_KEY`, `BCMS_BASE_URL`, `BCMS_FUNCTION_ID`).

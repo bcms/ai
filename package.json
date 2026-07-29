@@ -1,0 +1,21 @@
+{
+  "name": "bcms-ai-skill-pack",
+  "version": "1.4.0",
+  "private": true,
+  "description": "BCMS AI skill pack: canonical agent skills, references, plugin packaging, release manifest, and the bcms-content CLI. Versions and distribution metadata live in catalog.json.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "sync": "node scripts/sync-skill-references.mjs",
+    "check": "node scripts/sync-skill-references.mjs --check && node scripts/validate-skills.mjs",
+    "package": "node scripts/build-agent-resources.mjs && node scripts/package-plugins.mjs",
+    "validate": "node scripts/validate-catalog.mjs && node scripts/validate-skills.mjs && node scripts/validate-cursor-plugin.mjs && node scripts/validate-claude-plugin.mjs && node scripts/scan-secrets.mjs",
+    "validate:release": "node scripts/validate-release.mjs",
+    "build:agent-resources": "node scripts/build-agent-resources.mjs",
+    "test": "node --test \"skills/bcms-content/test/*.test.mjs\"",
+    "test:integration": "node --test skills/bcms-content/test/integration.test.mjs"
+  }
+}

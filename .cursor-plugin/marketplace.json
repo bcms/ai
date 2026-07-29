@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "BCMS Cursor plugin marketplace — skills and MCP wiring for the BCMS AI skill pack.",
-    "version": "1.1.4"
+    "version": "1.4.0"
   },
   "plugins": [
     {

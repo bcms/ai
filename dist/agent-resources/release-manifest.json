@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-29T16:36:25.729Z",
+  "repository": "https://github.com/bcms/ai",
+  "homepage": "https://thebcms.com/agents",
+  "packVersion": "1.4.0",
+  "skills": [
+    {
+      "name": "bcms",
+      "description": "BCMS headless CMS for coding agents. Build with the @thebcms/client SDK (templates, entries, groups, widgets, media, functions, webhooks, API keys, permissions) and operate content through the BCMS Model Context Protocol (MCP) server—scoped keys, Streamable HTTP, entry/media tools. Use for content modeling, framework integrations (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite), and agent-driven content operations.",
+      "version": "1.4.0",
+      "path": "skills/bcms",
+      "installCommands": {
+        "skillsSh": "npx skills add bcms/ai --skill bcms",
+        "openclaw": "openclaw skills install @bcms/bcms"
+      },
+      "urls": {
+        "skillsSh": "https://www.skills.sh/bcms/ai/bcms",
+        "clawHub": "https://clawhub.ai/bcms/bcms"
+      },
+      "publication": {
+        "skillsSh": "published",
+        "clawHub": "published"
+      },
+      "artifact": {
+        "filename": "bcms-skill-1.4.0.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.0.zip",
+        "sha256": "aebd242cd4f4c78a0e95d87a228b5c953e2d5f9d4012bf1f57b18b5a92961ba4",
+        "bytes": 78065
+      },
+      "references": [
+        "bcms-api-basics.md",
+        "entries.md",
+        "framework-astro.md",
+        "framework-gatsby.md",
+        "framework-next.md",
+        "framework-nuxt.md",
+        "framework-other.md",
+        "framework-svelte.md",
+        "framework-vite.md",
+        "frameworks.md",
+        "functions-webhooks.md",
+        "groups-widgets-media.md",
+        "groups.md",
+        "mcp.md",
+        "media.md",
+        "permissions.md",
+        "properties.md",
+        "templates.md",
+        "widgets.md"
+      ],
+      "compatibleClients": [
+        "cursor",
+        "claude-code",
+        "codex",
+        "openclaw"
+      ]
+    },
+    {
+      "name": "bcms-content",
+      "description": "Run BCMS content operations from the command line. A thin CLI (wrapping the official @thebcms/client SDK) for agents to create, update, delete, and list entries and upload media using a single API key — the same three-part key used for the BCMS MCP. Use this for scripted, deterministic content tasks in terminals, CI, and agent workflows.",
+      "version": "1.1.0",
+      "path": "skills/bcms-content",
+      "installCommands": {
+        "skillsSh": "npx skills add bcms/ai --skill bcms-content",
+        "openclaw": "openclaw skills install @bcms/bcms-content"
+      },
+      "urls": {
+        "skillsSh": "https://www.skills.sh/bcms/ai/bcms-content",
+        "clawHub": "https://clawhub.ai/bcms/bcms-content"
+      },
+      "publication": {
+        "skillsSh": "published",
+        "clawHub": "published"
+      },
+      "artifact": {
+        "filename": "bcms-content-skill-1.1.0.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.0.zip",
+        "sha256": "8355b8572ed663748a372fb9b1c4e037616f21fc8bc7d1491750010594acf286",
+        "bytes": 65992
+      },
+      "references": [
+        "entries.md",
+        "mcp.md",
+        "media.md",
+        "permissions.md",
+        "properties.md"
+      ],
+      "compatibleClients": [
+        "cursor",
+        "claude-code",
+        "codex",
+        "openclaw"
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "id": "cursor",
+      "name": "Cursor",
+      "support": [
+        "packaged",
+        "documented"
+      ],
+      "notes": "Plugin bundle in providers/cursor/plugin with a marketplace manifest in this repository; not listed in the public Cursor marketplace directory. Skills also install via skills.sh."
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code",
+      "support": [
+        "packaged",
+        "documented"
+      ],
+      "notes": "Plugin bundle in providers/claude/plugin installable via claude plugin marketplace add bcms/ai; not listed in a public Claude marketplace directory. Skills also install via skills.sh."
+    },
+    {
+      "id": "codex",
+      "name": "Codex",
+      "support": [
+        "documented"
+      ],
+      "notes": "No dedicated package. Skills install via the skills.sh CLI into agent skill folders that Codex reads; MCP connects over Streamable HTTP. Not tested by maintainers."
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "support": [
+        "unsupported"
+      ],
+      "notes": "No package, connector, or documented install path."
+    },
+    {
+      "id": "openclaw",
+      "name": "OpenClaw",
+      "support": [
+        "published",
+        "documented"
+      ],
+      "notes": "Both skills are published on ClawHub and install with openclaw skills install @bcms/<skill>."
+    },
+    {
+      "id": "clawhub",
+      "name": "ClawHub (registry)",
+      "support": [
+        "published"
+      ],
+      "notes": "Registry listing for OpenClaw installs: https://clawhub.ai/bcms/bcms and https://clawhub.ai/bcms/bcms-content."
+    },
+    {
+      "id": "skills.sh",
+      "name": "skills.sh (registry)",
+      "support": [
+        "published"
+      ],
+      "notes": "Registry listing: https://www.skills.sh/bcms/ai/bcms and https://www.skills.sh/bcms/ai/bcms-content. Installs run from this GitHub repository."
+    }
+  ],
+  "plugins": [
+    {
+      "client": "cursor",
+      "name": "bcms",
+      "version": "1.4.0",
+      "path": "providers/cursor/plugin",
+      "installMethod": "Add this repository as a Cursor plugin marketplace (manifest at .cursor-plugin/marketplace.json), then install the \"bcms\" plugin.",
+      "publicUrl": "https://github.com/bcms/ai/blob/main/.cursor-plugin/marketplace.json",
+      "publicationStatus": "packaged",
+      "skills": [
+        "bcms",
+        "bcms-content"
+      ],
+      "validation": "valid"
+    },
+    {
+      "client": "claude-code",
+      "name": "bcms",
+      "version": "1.4.0",
+      "path": "providers/claude/plugin",
+      "installMethod": "claude plugin marketplace add bcms/ai, then claude plugin install bcms.",
+      "publicUrl": "https://github.com/bcms/ai/blob/main/.claude-plugin/marketplace.json",
+      "publicationStatus": "packaged",
+      "skills": [
+        "bcms",
+        "bcms-content"
+      ],
+      "validation": "valid"
+    }
+  ],
+  "mcp": {
+    "endpointTemplate": "https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>",
+    "transport": "streamable-http",
+    "authentication": "mcpKey query parameter — a three-part BCMS API key (keyId.secret.instanceId) with the MCP flag enabled; the endpoint returns 403 otherwise. Send the mcp-session-id header on follow-up requests after initialize.",
+    "docsUrl": "https://thebcms.com/docs/mcp",
+    "clientNotes": {
+      "cursor": "Add a url entry to mcp.json (see providers/cursor/plugin/mcp.json.example).",
+      "claude-code": "claude mcp add --transport http bcms \"https://app.thebcms.com/api/v3/mcp?mcpKey=YOUR_MCP_KEY_HERE\"",
+      "other": "Any client that supports Streamable HTTP MCP servers can connect with the endpoint template above."
+    }
+  },
+  "cli": {
+    "name": "bcms-content-cli",
+    "version": "1.1.0",
+    "path": "skills/bcms-content",
+    "entry": "skills/bcms-content/cli/bcms.mjs",
+    "skill": "bcms-content",
+    "installMethod": "npx skills add bcms/ai --skill bcms-content, then npm install inside the installed skill folder. Not published to npm.",
+    "jsonMode": true,
+    "commands": [
+      {
+        "name": "create-entry",
+        "summary": "Create an entry in a template (by id or name).",
+        "usage": "create-entry <template> --data '<json>' | --data-file <path> [--lng en] [--status <id>] [--json] [--dry-run]",
+        "readOnly": false,
+        "destructive": false,
+        "retrySafe": false,
+        "retryNote": "Retrying after an ambiguous failure can create duplicate entries — list entries first."
+      },
+      {
+        "name": "update-entry",
+        "summary": "Update an entry; returns the full parsed entry after the update.",
+        "usage": "update-entry <entryId> --template <t> --data '<json>' [--lng en] [--status <id>] [--json] [--dry-run]",
+        "readOnly": false,
+        "destructive": false,
+        "retrySafe": true,
+        "retryNote": "Safe to retry: the same payload produces the same result."
+      },
+      {
+        "name": "delete-entry",
+        "summary": "Delete an entry (irreversible). Requires confirmation or --yes.",
+        "usage": "delete-entry <entryId> --template <t> [--yes] [--json] [--dry-run]",
+        "readOnly": false,
+        "destructive": true,
+        "retrySafe": true,
+        "retryNote": "Safe to retry: a repeated delete fails with NOT_FOUND, nothing else changes."
+      },
+      {
+        "name": "list-entries",
+        "summary": "List entry ids for a template (discovery before update/delete).",
+        "usage": "list-entries <template> [--json]",
+        "readOnly": true,
+        "destructive": false,
+        "retrySafe": true,
+        "retryNote": "Read-only; always safe to retry."
+      },
+      {
+        "name": "upload-media",
+        "summary": "Upload a file to the media library.",
+        "usage": "upload-media <filePath> [--parent <dirId>] [--json] [--dry-run]",
+        "readOnly": false,
+        "destructive": false,
+        "retrySafe": false,
+        "retryNote": "Retrying after an ambiguous failure can create duplicate media files."
+      }
+    ],
+    "errorCodes": [
+      "INVALID_ARGUMENT",
+      "INVALID_JSON",
+      "AUTHENTICATION_REQUIRED",
+      "AUTHENTICATION_FAILED",
+      "PERMISSION_DENIED",
+      "NOT_FOUND",
+      "CONFLICT",
+      "RATE_LIMITED",
+      "NETWORK_ERROR",
+      "API_ERROR",
+      "UNSUPPORTED_OPERATION",
+      "CONFIRMATION_REQUIRED"
+    ],
+    "exitCodes": {
+      "OK": 0,
+      "UNKNOWN": 1,
+      "INVALID_ARGUMENT": 2,
+      "INVALID_JSON": 2,
+      "UNSUPPORTED_OPERATION": 2,
+      "AUTHENTICATION_REQUIRED": 3,
+      "AUTHENTICATION_FAILED": 3,
+      "PERMISSION_DENIED": 4,
+      "NOT_FOUND": 5,
+      "CONFLICT": 6,
+      "RATE_LIMITED": 7,
+      "NETWORK_ERROR": 8,
+      "API_ERROR": 9,
+      "CONFIRMATION_REQUIRED": 10
+    }
+  }
+}

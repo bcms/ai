@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/bcms/ai",
+  "homepage": "https://thebcms.com/agents",
+  "license": "MIT",
+  "packVersion": "1.4.0",
+  "distBaseUrl": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources",
+  "skills": {
+    "bcms": {
+      "version": "1.4.0",
+      "path": "skills/bcms",
+      "artifactBaseName": "bcms-skill",
+      "installCommands": {
+        "skillsSh": "npx skills add bcms/ai --skill bcms",
+        "openclaw": "openclaw skills install @bcms/bcms"
+      },
+      "registryUrls": {
+        "skillsSh": "https://www.skills.sh/bcms/ai/bcms",
+        "clawHub": "https://clawhub.ai/bcms/bcms"
+      },
+      "publication": {
+        "skillsSh": "published",
+        "clawHub": "published"
+      },
+      "compatibleClients": ["cursor", "claude-code", "codex", "openclaw"]
+    },
+    "bcms-content": {
+      "version": "1.1.0",
+      "path": "skills/bcms-content",
+      "artifactBaseName": "bcms-content-skill",
+      "installCommands": {
+        "skillsSh": "npx skills add bcms/ai --skill bcms-content",
+        "openclaw": "openclaw skills install @bcms/bcms-content"
+      },
+      "registryUrls": {
+        "skillsSh": "https://www.skills.sh/bcms/ai/bcms-content",
+        "clawHub": "https://clawhub.ai/bcms/bcms-content"
+      },
+      "publication": {
+        "skillsSh": "published",
+        "clawHub": "published"
+      },
+      "compatibleClients": ["cursor", "claude-code", "codex", "openclaw"]
+    }
+  },
+  "plugins": {
+    "cursor": {
+      "client": "cursor",
+      "name": "bcms",
+      "version": "1.4.0",
+      "path": "providers/cursor/plugin",
+      "manifest": "providers/cursor/plugin/.cursor-plugin/plugin.json",
+      "marketplaceManifest": ".cursor-plugin/marketplace.json",
+      "installMethod": "Add this repository as a Cursor plugin marketplace (manifest at .cursor-plugin/marketplace.json), then install the \"bcms\" plugin.",
+      "publicUrl": "https://github.com/bcms/ai/blob/main/.cursor-plugin/marketplace.json",
+      "publicationStatus": "packaged",
+      "skills": ["bcms", "bcms-content"]
+    },
+    "claude-code": {
+      "client": "claude-code",
+      "name": "bcms",
+      "version": "1.4.0",
+      "path": "providers/claude/plugin",
+      "manifest": "providers/claude/plugin/.claude-plugin/plugin.json",
+      "marketplaceManifest": ".claude-plugin/marketplace.json",
+      "installMethod": "claude plugin marketplace add bcms/ai, then claude plugin install bcms.",
+      "publicUrl": "https://github.com/bcms/ai/blob/main/.claude-plugin/marketplace.json",
+      "publicationStatus": "packaged",
+      "skills": ["bcms", "bcms-content"]
+    }
+  },
+  "cli": {
+    "name": "bcms-content-cli",
+    "version": "1.1.0",
+    "path": "skills/bcms-content",
+    "entry": "skills/bcms-content/cli/bcms.mjs",
+    "skill": "bcms-content",
+    "installMethod": "npx skills add bcms/ai --skill bcms-content, then npm install inside the installed skill folder. Not published to npm.",
+    "jsonMode": true
+  },
+  "mcp": {
+    "endpointTemplate": "https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>",
+    "transport": "streamable-http",
+    "authentication": "mcpKey query parameter — a three-part BCMS API key (keyId.secret.instanceId) with the MCP flag enabled; the endpoint returns 403 otherwise. Send the mcp-session-id header on follow-up requests after initialize.",
+    "docsUrl": "https://thebcms.com/docs/mcp",
+    "clientNotes": {
+      "cursor": "Add a url entry to mcp.json (see providers/cursor/plugin/mcp.json.example).",
+      "claude-code": "claude mcp add --transport http bcms \"https://app.thebcms.com/api/v3/mcp?mcpKey=YOUR_MCP_KEY_HERE\"",
+      "other": "Any client that supports Streamable HTTP MCP servers can connect with the endpoint template above."
+    }
+  },
+  "clients": {
+    "cursor": {
+      "name": "Cursor",
+      "support": ["packaged", "documented"],
+      "notes": "Plugin bundle in providers/cursor/plugin with a marketplace manifest in this repository; not listed in the public Cursor marketplace directory. Skills also install via skills.sh."
+    },
+    "claude-code": {
+      "name": "Claude Code",
+      "support": ["packaged", "documented"],
+      "notes": "Plugin bundle in providers/claude/plugin installable via claude plugin marketplace add bcms/ai; not listed in a public Claude marketplace directory. Skills also install via skills.sh."
+    },
+    "codex": {
+      "name": "Codex",
+      "support": ["documented"],
+      "notes": "No dedicated package. Skills install via the skills.sh CLI into agent skill folders that Codex reads; MCP connects over Streamable HTTP. Not tested by maintainers."
+    },
+    "chatgpt": {
+      "name": "ChatGPT",
+      "support": ["unsupported"],
+      "notes": "No package, connector, or documented install path."
+    },
+    "openclaw": {
+      "name": "OpenClaw",
+      "support": ["published", "documented"],
+      "notes": "Both skills are published on ClawHub and install with openclaw skills install @bcms/<skill>."
+    },
+    "clawhub": {
+      "name": "ClawHub (registry)",
+      "support": ["published"],
+      "notes": "Registry listing for OpenClaw installs: https://clawhub.ai/bcms/bcms and https://clawhub.ai/bcms/bcms-content."
+    },
+    "skills.sh": {
+      "name": "skills.sh (registry)",
+      "support": ["published"],
+      "notes": "Registry listing: https://www.skills.sh/bcms/ai/bcms and https://www.skills.sh/bcms/ai/bcms-content. Installs run from this GitHub repository."
+    }
+  }
+}

@@ -10,6 +10,13 @@ npx skills add bcms/ai --skill bcms
 npx skills add bcms/ai --skill bcms-content
 ```
 
+Or via [ClawHub](https://clawhub.ai/bcms/bcms) for OpenClaw:
+
+```bash
+openclaw skills install @bcms/bcms
+openclaw skills install @bcms/bcms-content
+```
+
 The **`bcms`** skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`. The **`bcms-content`** skill ships a small CLI (`cli/bcms.mjs`, wrapping `@thebcms/client`) so agents can create / update / delete / list entries and upload media with a single API key — the same key used for the BCMS MCP. See [`skills/bcms-content/SKILL.md`](skills/bcms-content/SKILL.md).
 
 **Setup guide:** [thebcms.com/agents](https://thebcms.com/agents) — MCP connection, skill install, and the content CLI.
@@ -20,6 +27,8 @@ The **`bcms`** skill gives the AI coding agent concise, BCMS‑specific guidance
 
 | Path | Role |
 |------|------|
+| [`ai/catalog.json`](catalog.json) | **Canonical metadata**: versions, install commands, registry URLs, publication status, client support, MCP + CLI metadata. Everything else validates against it. |
+| [`ai/dist/agent-resources/`](dist/agent-resources/) | **Generated release output** consumed by [thebcms.com](https://thebcms.com): `release-manifest.json`, `agent-skills-index.json`, versioned skill archives, SHA-256 checksums. Rebuild with `npm run package`. |
 | [`ai/skills/bcms/SKILL.md`](skills/bcms/SKILL.md) | **Canonical** `bcms` skill—edit here. Covers SDK building **and** MCP content operations. |
 | [`ai/skills/bcms/references/`](skills/bcms/references/) | Generated copies of the canonical references, bundled for skills.sh installs (`node scripts/sync-skill-references.mjs`). |
 | [`ai/skills/bcms-content/SKILL.md`](skills/bcms-content/SKILL.md) | **Canonical** `bcms-content` skill—the executable content CLI. Ships `cli/bcms.mjs` + `package.json` (one dependency: `@thebcms/client`). |
@@ -29,6 +38,8 @@ The **`bcms`** skill gives the AI coding agent concise, BCMS‑specific guidance
 | [`ai/scripts/`](scripts/) | SDK examples, `validate-cursor-plugin.mjs`, `sync-skill-references.mjs`. |
 | [`ai/AGENTS.md`](AGENTS.md) | Layout and integration notes for maintainers. |
 | [`ai/CHANGELOG.md`](CHANGELOG.md) | Skill pack version history. |
+
+**Maintainer commands** (root `package.json`): `npm run sync` (reference sync), `npm run check` (sync + link/version validation), `npm run package` (rebuild `dist/agent-resources/` and copy-mode plugin packages under `dist/packages/` for symlink-less publishing), `npm run validate:release` (the full CI release gate), `npm test` (CLI tests against a mocked client). See [`AGENTS.md`](AGENTS.md) for the release workflow.
 
 Key topics:
 

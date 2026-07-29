@@ -10,6 +10,8 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
+import { loadCatalog } from "./lib/util.mjs";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, "..");
 
@@ -255,12 +257,45 @@ function resolveMarketplaceSource(source, pluginRoot) {
   return `${normalizedRoot}/${normalizedSource}`;
 }
 
+async function checkSymlinksResolve(dirPath, pluginName) {
+  const entries = await fs.readdir(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const entryPath = path.join(dirPath, entry.name);
+    if (entry.isSymbolicLink()) {
+      try {
+        await fs.stat(entryPath); // follows the link; throws when broken
+      } catch {
+        addError(`${pluginName}: broken symlink ${path.relative(repoRoot, entryPath)}`);
+        continue;
+      }
+      const resolved = await fs.realpath(entryPath);
+      if (!resolved.startsWith(repoRoot + path.sep)) {
+        addError(`${pluginName}: symlink ${path.relative(repoRoot, entryPath)} escapes the repository.`);
+      }
+    } else if (entry.isDirectory()) {
+      await checkSymlinksResolve(entryPath, pluginName);
+    }
+  }
+}
+
 async function main() {
+  const catalog = await loadCatalog();
+  const catalogPlugin = catalog.plugins?.cursor;
+  if (!catalogPlugin) {
+    addError("catalog.json has no plugins.cursor entry.");
+  }
+
   const marketplacePath = path.join(repoRoot, ".cursor-plugin", "marketplace.json");
   const marketplace = await readJsonFile(marketplacePath, "Marketplace manifest");
   if (!marketplace) {
     summarizeAndExit();
     return;
+  }
+
+  if (catalogPlugin && marketplace.metadata?.version !== catalogPlugin.version) {
+    addError(
+      `.cursor-plugin/marketplace.json metadata.version ${marketplace.metadata?.version} differs from catalog version ${catalogPlugin.version}.`
+    );
   }
 
   if (typeof marketplace.name !== "string" || !marketplaceNamePattern.test(marketplace.name)) {
@@ -340,6 +375,22 @@ async function main() {
       addError(
         `${entry.name}: marketplace entry name does not match plugin.json name ("${pluginManifest.name}").`
       );
+    }
+
+    if (catalogPlugin && entry.name === catalogPlugin.name && pluginManifest.version !== catalogPlugin.version) {
+      addError(
+        `${entry.name}: plugin.json version ${pluginManifest.version} differs from catalog version ${catalogPlugin.version}.`
+      );
+    }
+
+    await checkSymlinksResolve(pluginDir, entry.name);
+
+    if (catalogPlugin && entry.name === catalogPlugin.name) {
+      for (const skillName of catalogPlugin.skills ?? []) {
+        if (!(await pathExists(path.join(pluginDir, "skills", skillName, "SKILL.md")))) {
+          addError(`${entry.name}: bundled skill "${skillName}" is missing SKILL.md.`);
+        }
+      }
     }
 
     const manifestFields = ["logo", "rules", "skills", "agents", "commands", "hooks", "mcpServers"];
