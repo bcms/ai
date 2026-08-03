@@ -2,6 +2,13 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.4.4] — 2026-08-03
+
+### Added
+
+- **Dashboard entry URLs**: `references/mcp.md` and `skills/bcms/SKILL.md` tell agents to surface MCP `dashboardUrl` when present, and document the fallback path `/d/i/{instanceId}/bcms/template/{templateId}/entry/{entryId}` (not pointer links).
+- Pack **1.4.4** / `bcms-content` **1.1.4**.
+
 ## [1.4.3] — 2026-08-03
 
 ### Fixed

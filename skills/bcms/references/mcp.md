@@ -158,6 +158,22 @@ Template / group / widget updates use a **`propChanges`** array (add / update / 
 
 **Delete content or schema** — check usage / impact first; deletes are destructive; confirm with a read/list afterward.
 
+## Dashboard URLs for entries (show users)
+
+When MCP creates or returns an entry, **prefer any `dashboardUrl` field** on the tool result and surface it so the user can open the entry in the browser. Offering the link is encouraged, not mandatory.
+
+If the field is missing (older MCP), the dashboard path is:
+
+```text
+https://app.thebcms.com/d/i/{instanceId}/bcms/template/{templateId}/entry/{entryId}
+```
+
+- `instanceId` — third segment of the MCP key (`keyId.secret.instanceId`), or `instanceId` on the entry
+- `templateId` / `entryId` — from the create/get/update result (`templateId`, `_id`)
+- Replace the host if the org uses a custom BCMS app URL
+
+Do **not** confuse this with rich-text **pointer** links (`entry:…@*_…:entry` from pointer-link tools) — those are for content marks, not browser navigation.
+
 ## MCP vs `@thebcms/client`
 
 | Use MCP | Use SDK / REST |

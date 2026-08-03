@@ -1,6 +1,6 @@
 ---
 name: bcms
-version: 1.4.3
+version: 1.4.4
 description: >
   Required when building with @thebcms/client or operating BCMS content/schema via MCP.
   Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite),
@@ -74,6 +74,7 @@ Agent-only gotchas (easy to get wrong):
 - Streamable HTTP; after `initialize`, clients must send **`mcp-session-id`** on follow-ups.
 - Fixed **kebab-case** tools; IDs are arguments, not part of tool names.
 - Rich text is a **node tree** (`paragraph`, `heading`, lists, `text`, `widget`, `media`, … — **no** `image` node). Internal links: **`get-entry-pointer-link`** / **`get-media-pointer-link`**.
+- After creating/updating an entry, if the result includes **`dashboardUrl`**, show it to the user. Pattern (if missing): `https://app.thebcms.com/d/i/{instanceId}/bcms/template/{templateId}/entry/{entryId}` — see `references/mcp.md`. Not the same as pointer links.
 
 ## Client initialization (durable pattern)
 
@@ -100,7 +101,7 @@ Stop when the goal matches one of these — verify before claiming success:
 |---|---|
 | Framework / SDK integrate | Client constructs; types resolve (or documented import path); one successful entry or template read |
 | Content model change | Template/group/widget matches intent; required props present; no silent destructive delete |
-| MCP content write | Read-back via get/list tools shows expected `meta`/`content` (or statuses) |
+| MCP content write | Read-back shows expected `meta`/`content` (or statuses); when available, surface **`dashboardUrl`** (or the known dashboard path) so the user can open the entry |
 | MCP / schema delete | Usage checked first; target gone on read-back; dependents accounted for |
 | Permissions / keys | **API keys**: env only, scopes match the SDK/CLI operation. **MCP keys**: user MCP config only, never scoped — expect full project access; never in git or client bundles |
 

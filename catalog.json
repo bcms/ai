@@ -3,11 +3,11 @@
   "repository": "https://github.com/bcms/ai",
   "homepage": "https://thebcms.com/agents",
   "license": "MIT",
-  "packVersion": "1.4.3",
+  "packVersion": "1.4.4",
   "distBaseUrl": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources",
   "skills": {
     "bcms": {
-      "version": "1.4.3",
+      "version": "1.4.4",
       "path": "skills/bcms",
       "artifactBaseName": "bcms-skill",
       "installCommands": {
@@ -25,7 +25,7 @@
       "compatibleClients": ["cursor", "claude-code", "codex", "openclaw"]
     },
     "bcms-content": {
-      "version": "1.1.3",
+      "version": "1.1.4",
       "path": "skills/bcms-content",
       "artifactBaseName": "bcms-content-skill",
       "installCommands": {
@@ -47,7 +47,7 @@
     "cursor": {
       "client": "cursor",
       "name": "bcms",
-      "version": "1.4.3",
+      "version": "1.4.4",
       "path": "providers/cursor/plugin",
       "manifest": "providers/cursor/plugin/.cursor-plugin/plugin.json",
       "marketplaceManifest": ".cursor-plugin/marketplace.json",
@@ -59,7 +59,7 @@
     "claude-code": {
       "client": "claude-code",
       "name": "bcms",
-      "version": "1.4.3",
+      "version": "1.4.4",
       "path": "providers/claude/plugin",
       "manifest": "providers/claude/plugin/.claude-plugin/plugin.json",
       "marketplaceManifest": ".claude-plugin/marketplace.json",
@@ -71,7 +71,7 @@
   },
   "cli": {
     "name": "bcms-content-cli",
-    "version": "1.1.3",
+    "version": "1.1.4",
     "path": "skills/bcms-content",
     "entry": "skills/bcms-content/cli/bcms.mjs",
     "skill": "bcms-content",
