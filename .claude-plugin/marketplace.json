@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "BCMS plugin marketplace for Claude Code",
-    "version": "1.4.1"
+    "version": "1.4.2"
   },
   "plugins": [
     {
       "name": "bcms",
       "source": "./providers/claude/plugin",
       "description": "BCMS integration plugin for Claude Code. Provides skills and knowledge for working with BCMS, including API client setup, templates, entries, groups, widgets, media, functions, webhooks, and permissions.",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "author": {
         "name": "BCMS"
       },

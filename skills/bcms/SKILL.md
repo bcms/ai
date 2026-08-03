@@ -1,6 +1,6 @@
 ---
 name: bcms
-version: 1.4.1
+version: 1.4.2
 description: >
   Required when building with @thebcms/client or operating BCMS content/schema via MCP.
   Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite),
@@ -64,7 +64,7 @@ This skill (`bcms`) is **guidance**. The companion **`bcms-content`** skill is a
 
 ## MCP (essentials only)
 
-Official: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp). Full tool list and troubleshooting: **`references/mcp.md`**.
+Official: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp). Agent gotchas and payload shapes: **`references/mcp.md`** (discover live tool names/schemas from the MCP client — not a hand-maintained tool catalog).
 
 Agent-only gotchas (easy to get wrong):
 

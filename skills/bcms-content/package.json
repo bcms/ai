@@ -1,6 +1,6 @@
 {
   "name": "bcms-content-cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "description": "Thin agent-facing CLI for BCMS content operations (entries and media), wrapping @thebcms/client.",
   "type": "module",

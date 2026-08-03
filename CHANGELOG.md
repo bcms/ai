@@ -2,6 +2,13 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.4.2] — 2026-08-03
+
+### Changed
+
+- **`references/mcp.md`**: docs-pointer-first rewrite — live tool inventory deferred to [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp) and the MCP client's schemas; file keeps durable agent gotchas (connection, session, errors, rich-text nodes, pointer links, `propChanges`, MCP vs SDK). Removes the hand-maintained per-tool tables that rotated with the server.
+- Pack **1.4.2** / `bcms-content` **1.1.2**.
+
 ## [1.4.1] — 2026-08-03
 
 ### Changed

@@ -1,6 +1,6 @@
 ---
 name: bcms-content
-version: 1.1.1
+version: 1.1.2
 description: >
   Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop
   when MCP is unavailable or a deterministic CLI is preferred. Use to create, update,

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T17:44:25.295Z",
+  "generatedAt": "2026-08-03T17:48:04.786Z",
   "publisher": {
     "name": "BCMS",
     "url": "https://thebcms.com",
@@ -10,7 +10,7 @@
     {
       "name": "bcms",
       "description": "Required when building with @thebcms/client or operating BCMS content/schema via MCP. Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite), and agent-driven entry, media, or schema work. Routes SDK vs MCP vs the bcms-content CLI, secrets/least-privilege, and progressive references (templates, entries, properties, MCP).",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "install": {
         "skillsSh": "npx skills add bcms/ai --skill bcms",
         "openclaw": "openclaw skills install @bcms/bcms"
@@ -20,16 +20,16 @@
         "path": "skills/bcms"
       },
       "artifact": {
-        "filename": "bcms-skill-1.4.1.zip",
-        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.1.zip",
-        "sha256": "ef46ec3931ea429a41a9fb3bbd4e0be7fc1b30c2aa8dbe0f96c4d12f96cba266",
-        "bytes": 68535
+        "filename": "bcms-skill-1.4.2.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.2.zip",
+        "sha256": "c3e665ce3117584435a81b6321816849d0b29afe25563f74de37385b344245e3",
+        "bytes": 61480
       }
     },
     {
       "name": "bcms-content",
       "description": "Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop when MCP is unavailable or a deterministic CLI is preferred. Use to create, update, delete, or list entries and upload media with stable --json output and a single three-part API key. Not for application SDK code, content modeling, or interactive MCP — use the companion bcms skill for those.",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "install": {
         "skillsSh": "npx skills add bcms/ai --skill bcms-content",
         "openclaw": "openclaw skills install @bcms/bcms-content"
@@ -39,10 +39,10 @@
         "path": "skills/bcms-content"
       },
       "artifact": {
-        "filename": "bcms-content-skill-1.1.1.zip",
-        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.1.zip",
-        "sha256": "a46d82be59b1128478c6a64a0492d3eb2f0928942e478e8767bb153b698c6b0c",
-        "bytes": 66885
+        "filename": "bcms-content-skill-1.1.2.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.2.zip",
+        "sha256": "031b459b3753f35f83dd64e232bc677ea5f8c5ca66e12aa8b9aed26c0c6fa34c",
+        "bytes": 59738
       }
     }
   ]
