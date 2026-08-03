@@ -21,11 +21,11 @@ On **Windows**, if git or the filesystem does not support symlinks, **copy** the
 
 ## BCMS MCP (optional)
 
-Cursor does **not** reliably expand environment variables inside `mcp.json` URLs. Do **not** commit a real API key.
+Cursor does **not** reliably expand environment variables inside `mcp.json` URLs. Do **not** commit a real MCP key.
 
-1. Create an API key in the BCMS dashboard with **MCP** enabled and least-privilege template/media scopes.
-2. Add an MCP server in **Cursor Settings → MCP** using the URL pattern from [`references/mcp.md`](../../references/mcp.md) (see also [MCP on thebcms.com](https://thebcms.com/docs/mcp)).
-3. For a starting point, copy [`mcp.json.example`](./mcp.json.example) into your **user** MCP config, replace `YOUR_BCMS_MCP_KEY` with your BCMS MCP API key, and adjust the host if your org uses a custom app URL.
+1. Create or copy an **MCP key** in the BCMS dashboard for the project. MCP keys are **per-project** and **not** scoped — they generally access all entries, templates, groups, widgets, and media.
+2. Add an MCP server in **Cursor Settings → MCP** using the URL pattern from [`references/mcp.md`](../../references/mcp.md) (see also [MCP on thebcms.com](https://thebcms.com/docs/mcp)). Use the **`mcpKey`** query parameter — not an API key / `apiKey`.
+3. For a starting point, copy [`mcp.json.example`](./mcp.json.example) into your **user** MCP config, replace `YOUR_BCMS_MCP_KEY` with your **MCP key**, and adjust the host if your org uses a custom app URL.
 
 Full protocol, session headers, and troubleshooting: **`references/mcp.md`** in the repo (or via the bundled skills).
 

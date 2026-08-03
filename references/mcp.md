@@ -4,19 +4,20 @@
 
 This file is **agent guidance**: connection gotchas, payload shapes, and MCP vs SDK routing. It is **not** a maintained inventory of every tool. When tools are configured, **discover names and input schemas from the live MCP client** (and the docs URL above). Do not invent tools from memory or from an outdated list in this pack.
 
-BCMS exposes an MCP server so coding assistants can read and mutate **content and schema** with a dedicated API key. Use MCP when the agent has BCMS tools configured; use `@thebcms/client` inside applications, CI, and server code.
+BCMS exposes an MCP server so coding assistants can read and mutate **content and schema** with an **MCP key**. Use MCP when the agent has BCMS tools configured; use `@thebcms/client` (with scoped **API keys**) inside applications, CI, and server code.
 
-## Enabling MCP and keys
+## Enabling MCP keys
 
-1. In the BCMS dashboard, create or edit an **API key** and turn on **MCP access**.
-2. The key is the same three-part string used by the REST client: **`keyId.secret.instanceId`**.
-3. Keep it in environment variables or secure local config — never commit it.
+1. In the BCMS dashboard, create or use an **MCP key** for the project.
+2. The credential string format is `keyId.secret.instanceId`. Pass it only as the **`mcpKey`** query parameter on the MCP URL — do **not** call this an API key in MCP setup, and do not put it in `apiKey=` query params.
+3. Keep it in environment variables or secure local / user MCP config — never commit it.
 
-Auth rules:
+Access model (easy to get wrong):
 
-- Key must be exactly **three** dot-separated parts.
-- Key must exist, secret must match, and the **MCP flag** must be on — otherwise connect fails (**`403`** without the flag).
-- MCP exposes the **full tool set** to any MCP-enabled key; it does **not** hide tools based on per-template GET/POST/PUT/DELETE toggles. Treat an MCP key as **write-capable**; scope and rotate accordingly.
+- MCP keys are **per-project**. They are **not** scoped (no per-template / per-media least privilege).
+- An MCP key generally can access **all entries, templates, groups, widgets, and media** in that project.
+- The MCP layer exposes the **full tool set** for that project. Treat the key as a powerful project credential: rotate if leaked; never ship it to browsers, public repos, or client bundles.
+- **API keys** used by the SDK/CLI are a different concern — those *can* be scoped. See `references/permissions.md`.
 
 ## Client configuration
 
@@ -47,8 +48,8 @@ Endpoint pattern (param is **`mcpKey`**, not `apiKey`):
 | Situation | Typical cause | What to do |
 |-----------|----------------|------------|
 | **400** at connect | Key not three dot-separated parts | Use full `keyId.secret.instanceId` |
-| **401** at connect | Wrong key or secret | Fix/rotate in dashboard |
-| **403** at connect | MCP flag off | Enable MCP on the key |
+| **401** at connect | Wrong MCP key or secret | Fix/rotate in dashboard |
+| **403** at connect | Credential is not a valid MCP key / MCP not enabled for it | Use an MCP key from the dashboard |
 | **404** at connect | Bad `instanceId` segment | Check the key |
 | Missing `mcpKey` | Query param omitted | Add `?mcpKey=...` |
 | Session / stream errors | Missing/expired `mcp-session-id` or proxy stripping headers | Re-initialize; ensure header on follow-ups |
@@ -58,7 +59,7 @@ Tool results are wrapped: success `{ data }`, failure `{ error: { status, messag
 
 ## Capabilities (domains, not a tool catalog)
 
-Expect full CRUD over content **and** schema when MCP is enabled, plus supporting domains. Exact tool names and args: **live client schemas** and [docs/mcp](https://thebcms.com/docs/mcp).
+Expect full CRUD over content **and** schema when MCP is connected, plus supporting domains. Exact tool names and args: **live client schemas** and [docs/mcp](https://thebcms.com/docs/mcp).
 
 Typical domains:
 
@@ -163,6 +164,6 @@ Template / group / widget updates use a **`propChanges`** array (add / update / 
 |--------|----------------|
 | Agent editing content/schema from the IDE | App runtime, SSR, builds |
 | Exploratory listing and assisted updates | Owned TypeScript batch jobs |
-| BCMS MCP tools are enabled | Automation without MCP |
+| BCMS MCP tools are enabled (**MCP key**) | Automation with scoped **API keys**, without MCP |
 
-Same instance either way — pick the surface that matches where the work runs. For scripted terminal/CI ops without MCP, see the **`bcms-content`** CLI skill.
+Same project either way — pick the surface that matches where the work runs. For scripted terminal/CI ops without MCP, see the **`bcms-content`** CLI skill (API key via `BCMS_API_KEY`).

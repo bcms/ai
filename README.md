@@ -17,7 +17,7 @@ openclaw skills install @bcms/bcms
 openclaw skills install @bcms/bcms-content
 ```
 
-The **`bcms`** skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`. The **`bcms-content`** skill ships a small CLI (`cli/bcms.mjs`, wrapping `@thebcms/client`) so agents can create / update / delete / list entries and upload media with a single API key — the same key used for the BCMS MCP. See [`skills/bcms-content/SKILL.md`](skills/bcms-content/SKILL.md).
+The **`bcms`** skill gives the AI coding agent concise, BCMS‑specific guidance and defers longer explanations to the files in `references/`. The **`bcms-content`** skill ships a small CLI (`cli/bcms.mjs`, wrapping `@thebcms/client`) so agents can create / update / delete / list entries and upload media with a scoped **API key** (`BCMS_API_KEY`). Interactive MCP uses a separate per-project **MCP key** (not scoped). See [`skills/bcms-content/SKILL.md`](skills/bcms-content/SKILL.md).
 
 **Setup guide:** [thebcms.com/agents](https://thebcms.com/agents) — MCP connection, skill install, and the content CLI.
 
@@ -70,8 +70,8 @@ Key topics:
 
 - **Never hard‑code API keys or use admin keys in the browser**.
   Instead, store secrets in environment variables and use minimally scoped keys; see `references/bcms-api-basics.md` and `references/permissions.md`.
-- **Never ship MCP API keys to browsers, public repos, or client bundles**.
-  MCP keys are for trusted agents and local config only; scope them like any write-capable key; see `references/mcp.md` and `references/permissions.md`.
+- **Never ship MCP keys to browsers, public repos, or client bundles**.
+  MCP keys are per-project credentials (not scoped API keys) for trusted agents and local config only; see `references/mcp.md` and `references/permissions.md`.
 - **Never delete templates, groups, widgets or media in production without checking impact**.
   Always inspect usage first (`group.whereIsItUsed`, `widget.whereIsItUsed`, `template.whereIsItUsed`) and plan a migration path; see `references/templates.md`, `references/groups.md`, `references/widgets.md`, and `references/media.md`.
 - **Avoid stuffing unstructured JSON into `meta` or `content` when a property, group or widget fits**.
@@ -102,20 +102,20 @@ Key topics:
   See `references/frameworks.md`.
 
 - **AI assistants and IDE workflows (Cursor, Claude Code, etc.)**
-  Enable **MCP** on a dedicated API key, configure the MCP URL with least‑privilege template and media scopes, and use the exposed tools for content operations. Do not embed those keys in shipped apps.
+  Configure MCP with a project **MCP key** (`mcpKey` query param). MCP keys are **not** scoped — they generally access all entries, templates, groups, widgets, and media. Do not embed those keys in shipped apps.
   See [thebcms.com/agents](https://thebcms.com/agents), `references/mcp.md`, and [BCMS MCP documentation](https://thebcms.com/docs/mcp).
 
 ## BCMS MCP (agents and IDEs)
 
-BCMS hosts an MCP server so assistants can work with BCMS **content and schema** using a key that has **MCP** enabled. Agent landing page: [thebcms.com/agents](https://thebcms.com/agents). Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
+BCMS hosts an MCP server so assistants can work with BCMS **content and schema** using an **MCP key**. Agent landing page: [thebcms.com/agents](https://thebcms.com/agents). Official overview: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp).
 
 - **URL pattern**: `https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>` (the query param is **`mcpKey`**; adjust host if your org uses a custom app URL).
-- **Auth**: the three‑part API key must have the **MCP flag** enabled, or the endpoint returns `403`.
+- **Auth**: an **MCP key** (not an API key). MCP keys are **per-project** and **not** template/media-scoped — generally full access to entries, templates, groups, widgets, and media.
 - **Transport**: Streamable HTTP; after `initialize`, send **`mcp-session-id`** on follow‑up requests.
-- **Capabilities**: fixed **kebab‑case** tools (IDs are passed as arguments, not encoded in tool names) covering full CRUD on **entries** (including **delete**) and on **templates / groups / widgets**, plus entry statuses, entry history, languages, media (list, folders, pre‑signed upload URL), pointer links, and trash. The full tool set is exposed to any MCP‑enabled key.
+- **Capabilities**: fixed **kebab‑case** tools (IDs are passed as arguments, not encoded in tool names) covering full CRUD on **entries** (including **delete**) and on **templates / groups / widgets**, plus entry statuses, entry history, languages, media (list, folders, pre‑signed upload URL), pointer links, and trash.
 - **Rich text**: entry bodies use **node trees** (`paragraph`, `heading`, `bulletList`/`orderedList`, `listItem`, `text`, `codeBlock`, `hardBreak`, `horizontalRule`, `widget`, `media` — there is **no** `image` node); use **`get-entry-pointer-link`** and **`get-media-pointer-link`** for internal BCMS links in link marks.
 
-Full tool names, resources, troubleshooting, and MCP vs SDK guidance: **`references/mcp.md`**.
+Agent gotchas, resources, troubleshooting, and MCP vs SDK guidance: **`references/mcp.md`**.
 
 ## Setup and Client Initialization
 

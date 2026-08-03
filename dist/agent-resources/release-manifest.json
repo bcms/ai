@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-03T17:48:04.786Z",
+  "generatedAt": "2026-08-03T17:52:07.801Z",
   "repository": "https://github.com/bcms/ai",
   "homepage": "https://thebcms.com/agents",
-  "packVersion": "1.4.2",
+  "packVersion": "1.4.3",
   "skills": [
     {
       "name": "bcms",
-      "description": "Required when building with @thebcms/client or operating BCMS content/schema via MCP. Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite), and agent-driven entry, media, or schema work. Routes SDK vs MCP vs the bcms-content CLI, secrets/least-privilege, and progressive references (templates, entries, properties, MCP).",
-      "version": "1.4.2",
+      "description": "Required when building with @thebcms/client or operating BCMS content/schema via MCP. Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite), and agent-driven entry, media, or schema work. Routes SDK (scoped API keys) vs MCP (per-project MCP keys, not scoped) vs the bcms-content CLI, and progressive references.",
+      "version": "1.4.3",
       "path": "skills/bcms",
       "installCommands": {
         "skillsSh": "npx skills add bcms/ai --skill bcms",
@@ -23,10 +23,10 @@
         "clawHub": "published"
       },
       "artifact": {
-        "filename": "bcms-skill-1.4.2.zip",
-        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.2.zip",
-        "sha256": "c3e665ce3117584435a81b6321816849d0b29afe25563f74de37385b344245e3",
-        "bytes": 61480
+        "filename": "bcms-skill-1.4.3.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.3.zip",
+        "sha256": "c36b4f1f6118212bd26783ac14c657b7fb4e879013f5f5eab36f27b8abb750b8",
+        "bytes": 63347
       },
       "references": [
         "bcms-api-basics.md",
@@ -58,8 +58,8 @@
     },
     {
       "name": "bcms-content",
-      "description": "Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop when MCP is unavailable or a deterministic CLI is preferred. Use to create, update, delete, or list entries and upload media with stable --json output and a single three-part API key. Not for application SDK code, content modeling, or interactive MCP — use the companion bcms skill for those.",
-      "version": "1.1.2",
+      "description": "Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop when MCP is unavailable or a deterministic CLI is preferred. Use to create, update, delete, or list entries and upload media with stable --json output and a scoped three-part API key (BCMS_API_KEY). Not for application SDK code, content modeling, or interactive MCP (that uses a per-project MCP key) — use the companion bcms skill.",
+      "version": "1.1.3",
       "path": "skills/bcms-content",
       "installCommands": {
         "skillsSh": "npx skills add bcms/ai --skill bcms-content",
@@ -74,10 +74,10 @@
         "clawHub": "published"
       },
       "artifact": {
-        "filename": "bcms-content-skill-1.1.2.zip",
-        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.2.zip",
-        "sha256": "031b459b3753f35f83dd64e232bc677ea5f8c5ca66e12aa8b9aed26c0c6fa34c",
-        "bytes": 59738
+        "filename": "bcms-content-skill-1.1.3.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.3.zip",
+        "sha256": "8fcd753ceaecc38558c73a4b619306849e419d40de3723ae47ec28990a124e90",
+        "bytes": 61204
       },
       "references": [
         "entries.md",
@@ -159,7 +159,7 @@
     {
       "client": "cursor",
       "name": "bcms",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "path": "providers/cursor/plugin",
       "installMethod": "Add this repository as a Cursor plugin marketplace (manifest at .cursor-plugin/marketplace.json), then install the \"bcms\" plugin.",
       "publicUrl": "https://github.com/bcms/ai/blob/main/.cursor-plugin/marketplace.json",
@@ -173,7 +173,7 @@
     {
       "client": "claude-code",
       "name": "bcms",
-      "version": "1.4.2",
+      "version": "1.4.3",
       "path": "providers/claude/plugin",
       "installMethod": "claude plugin marketplace add bcms/ai, then claude plugin install bcms.",
       "publicUrl": "https://github.com/bcms/ai/blob/main/.claude-plugin/marketplace.json",
@@ -188,7 +188,7 @@
   "mcp": {
     "endpointTemplate": "https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>",
     "transport": "streamable-http",
-    "authentication": "mcpKey query parameter — a three-part BCMS API key (keyId.secret.instanceId) with the MCP flag enabled; the endpoint returns 403 otherwise. Send the mcp-session-id header on follow-up requests after initialize.",
+    "authentication": "mcpKey query parameter — a three-part BCMS MCP key (keyId.secret.instanceId). MCP keys are per-project and not scoped (full access to entries, templates, groups, widgets, and media). Do not call this an API key. Send the mcp-session-id header on follow-up requests after initialize.",
     "docsUrl": "https://thebcms.com/docs/mcp",
     "clientNotes": {
       "cursor": "Add a url entry to mcp.json (see providers/cursor/plugin/mcp.json.example).",
@@ -198,7 +198,7 @@
   },
   "cli": {
     "name": "bcms-content-cli",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "path": "skills/bcms-content",
     "entry": "skills/bcms-content/cli/bcms.mjs",
     "skill": "bcms-content",

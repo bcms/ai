@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "BCMS Cursor plugin marketplace — skills and MCP wiring for the BCMS AI skill pack.",
-    "version": "1.4.2"
+    "version": "1.4.3"
   },
   "plugins": [
     {
       "name": "bcms",
       "source": "./providers/cursor/plugin",
-      "description": "BCMS integration for Cursor: @thebcms/client, templates, entries, groups, widgets, media, functions, webhooks, permissions, and optional remote MCP with scoped keys."
+      "description": "BCMS integration for Cursor: @thebcms/client, templates, entries, groups, widgets, media, functions, webhooks, permissions, and optional remote MCP with a per-project MCP key."
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "name": "bcms-ai-skill-pack",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "private": true,
   "description": "BCMS AI skill pack: canonical agent skills, references, plugin packaging, release manifest, and the bcms-content CLI. Versions and distribution metadata live in catalog.json.",
   "type": "module",

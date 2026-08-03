@@ -1,12 +1,12 @@
 ---
 name: bcms-content
-version: 1.1.2
+version: 1.1.3
 description: >
   Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop
   when MCP is unavailable or a deterministic CLI is preferred. Use to create, update,
-  delete, or list entries and upload media with stable --json output and a single
-  three-part API key. Not for application SDK code, content modeling, or interactive MCP —
-  use the companion bcms skill for those.
+  delete, or list entries and upload media with stable --json output and a scoped
+  three-part API key (BCMS_API_KEY). Not for application SDK code, content modeling, or
+  interactive MCP (that uses a per-project MCP key) — use the companion bcms skill.
 ---
 
 # BCMS Content CLI
@@ -27,7 +27,7 @@ For content **modeling**, SDK usage in application code, framework integrations,
 npm install
 ```
 
-2. **Provide an API key** — the same three-part key (`keyId.secret.instanceId`) used for the BCMS MCP. The key must have content permissions for the templates/media you target.
+2. **Provide an API key** — three-part `keyId.secret.instanceId` in `BCMS_API_KEY`. This is an **API key** and can be scoped to the templates/media you need (`references/permissions.md`).
 
 ```bash
 export BCMS_API_KEY="keyId.secret.instanceId"
@@ -35,7 +35,7 @@ export BCMS_API_KEY="keyId.secret.instanceId"
 export BCMS_API_ORIGIN="https://app.thebcms.com"
 ```
 
-> The MCP key and the SDK/CLI API key are the **same credential**. A key that works for MCP works here, as long as it has the right per-template/media scopes (see `references/permissions.md`).
+> Do **not** confuse this with MCP. Interactive MCP uses an **MCP key** (`mcpKey`) that is **per-project and not scoped**. The CLI uses a scoped **API key**. See `references/mcp.md` and the `bcms` skill.
 
 ## Running commands
 
@@ -165,9 +165,9 @@ node cli/bcms.mjs create-entry blog --data-file ./post.json
 
 ## CLI vs MCP vs SDK
 
-- **This CLI** — deterministic, scriptable content ops in terminals, CI, and agent loops. One API key, no interactive login.
-- **MCP tools** — best when the agent already has BCMS MCP configured; full schema-guided CRUD on entries and schema (create / read / update / **delete**), plus media and pointer-link tools. See the `bcms` skill and `references/mcp.md`.
-- **`@thebcms/client` SDK** — for application code, builds, and anything beyond these commands. See the `bcms` skill.
+- **This CLI** — deterministic, scriptable content ops in terminals, CI, and agent loops. One **API key** (`BCMS_API_KEY`), no interactive login.
+- **MCP tools** — best when the agent already has BCMS MCP configured with an **MCP key** (per-project, not scoped); full schema-guided CRUD. See the `bcms` skill and `references/mcp.md`.
+- **`@thebcms/client` SDK** — for application code, builds, and anything beyond these commands (scoped API keys). See the `bcms` skill.
 
 ## Safety
 

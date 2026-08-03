@@ -106,9 +106,9 @@ Support labels live in `catalog.json` (`clients` section) and flow into the rele
 
 ## MCP vs SDK
 
-- **MCP** (remote BCMS tools): see `references/mcp.md` — session header, env-based URL, pointer links for internal entry/media links.
-- **SDK** (`@thebcms/client`): see `references/framework-next.md` / `references/framework-astro.md` (and the other `references/framework-*.md` guides) plus `scripts/` for minimal examples.
-- **CLI** (`bcms-content`): scripted entry/media operations with stable JSON output; see `skills/bcms-content/SKILL.md`.
+- **MCP** (remote BCMS tools): see `references/mcp.md` — **MCP key** via `mcpKey` (per-project, **not** scoped), session header, pointer links for internal entry/media links.
+- **SDK** (`@thebcms/client`): see `references/framework-next.md` / `references/framework-astro.md` (and the other `references/framework-*.md` guides) plus `scripts/` for minimal examples. Uses scoped **API keys**.
+- **CLI** (`bcms-content`): scripted entry/media operations with stable JSON output and scoped API keys; see `skills/bcms-content/SKILL.md`.
 
 ## External dependencies (not implemented here)
 

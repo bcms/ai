@@ -1,7 +1,7 @@
 {
   "name": "bcms",
   "displayName": "BCMS",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "BCMS headless CMS: @thebcms/client SDK, templates, entries, groups, widgets, media, functions, webhooks, permissions, MCP, and an executable content CLI (bcms-content) for entry/media ops. See ai/CHANGELOG.md.",
   "author": {
     "name": "BCMS",

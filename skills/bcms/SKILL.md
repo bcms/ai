@@ -1,11 +1,11 @@
 ---
 name: bcms
-version: 1.4.2
+version: 1.4.3
 description: >
   Required when building with @thebcms/client or operating BCMS content/schema via MCP.
   Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite),
-  and agent-driven entry, media, or schema work. Routes SDK vs MCP vs the bcms-content CLI,
-  secrets/least-privilege, and progressive references (templates, entries, properties, MCP).
+  and agent-driven entry, media, or schema work. Routes SDK (scoped API keys) vs MCP
+  (per-project MCP keys, not scoped) vs the bcms-content CLI, and progressive references.
 ---
 
 # BCMS
@@ -37,7 +37,7 @@ This skill (`bcms`) is **guidance**. The companion **`bcms-content`** skill is a
 | Media | `references/media.md` |
 | Property / field types | `references/properties.md` |
 | Functions & webhooks | `references/functions-webhooks.md` |
-| Permissions & key scopes | `references/permissions.md` |
+| Permissions (API key scopes vs MCP keys) | `references/permissions.md` |
 | Framework pick → per-framework guide | `references/frameworks.md` |
 | MCP tools, session, pointer links, rich-text nodes | `references/mcp.md` |
 
@@ -47,15 +47,15 @@ This skill (`bcms`) is **guidance**. The companion **`bcms-content`** skill is a
 - **Model with BCMS primitives**: templates + entries first; groups for reusable structures; widgets for rich-text blocks; media library for files.
 - **Prefer official starters** (`@thebcms/cli`) before hand-rolling; then `references/frameworks.md`.
 - **Render with BCMS components** (`BCMSContentManager`, `BCMSImage` / framework equivalents) instead of custom rich-text parsers unless there is a clear need.
-- **Secrets**: three-part key `keyId.secret.instanceId` in env (`BCMS_API_KEY`, plus public key vars where framework docs require); separate keys per env; least privilege — especially for media delivery.
+- **Secrets**: SDK/CLI use three-part **API keys** in env (`BCMS_API_KEY`, plus public key vars where framework docs require); separate keys per env; **least privilege** for API keys (especially media delivery). MCP uses a separate **MCP key** — per-project, **not** scoped (see below).
 - **Localisation**: `meta` / `content` per locale when multi-lingual.
 - **Evolve schemas**; avoid destructive production changes without migration.
 - **MCP when tools exist**: use MCP for interactive content/schema ops; use the SDK in app code, builds, and anything outside MCP.
 
 ## Constraints (do / don't)
 
-- **Never** hard-code API keys or use admin keys in the browser — env + minimally scoped keys (`references/bcms-api-basics.md`, `references/permissions.md`).
-- **Never** ship MCP keys to browsers, public repos, or client bundles.
+- **Never** hard-code API keys or MCP keys, or use admin/API keys in the browser — env + minimally scoped **API keys** for apps (`references/bcms-api-basics.md`, `references/permissions.md`).
+- **Never** ship **MCP keys** to browsers, public repos, or client bundles. MCP keys are per-project and **not** scoped — treat them as full project access to entries, templates, groups, widgets, and media.
 - **Never** delete templates, groups, widgets, or media in production without checking impact (`whereIsItUsed` / usage first).
 - **Don't** stuff unstructured JSON into `meta`/`content` when a property, group, or widget fits.
 - **Don't** re-implement rich-text/widget rendering when `BCMSContentManager` is available.
@@ -68,10 +68,11 @@ Official: [thebcms.com/docs/mcp](https://thebcms.com/docs/mcp). Agent gotchas an
 
 Agent-only gotchas (easy to get wrong):
 
+- Auth is an **MCP key** via `mcpKey` — not an API key, and not least-privilege scoped.
 - URL: `https://app.thebcms.com/api/v3/mcp?mcpKey=<keyId.secret.instanceId>` (param is **`mcpKey`**; custom app host if needed).
-- Key must have the **MCP flag** or the endpoint returns `403`.
+- MCP keys are **per-project** and generally access **all** entries, templates, groups, widgets, and media; the full tool set is available.
 - Streamable HTTP; after `initialize`, clients must send **`mcp-session-id`** on follow-ups.
-- Fixed **kebab-case** tools; IDs are arguments, not part of tool names. MCP-enabled keys see the full tool set — treat the key as write-capable.
+- Fixed **kebab-case** tools; IDs are arguments, not part of tool names.
 - Rich text is a **node tree** (`paragraph`, `heading`, lists, `text`, `widget`, `media`, … — **no** `image` node). Internal links: **`get-entry-pointer-link`** / **`get-media-pointer-link`**.
 
 ## Client initialization (durable pattern)
@@ -101,9 +102,9 @@ Stop when the goal matches one of these — verify before claiming success:
 | Content model change | Template/group/widget matches intent; required props present; no silent destructive delete |
 | MCP content write | Read-back via get/list tools shows expected `meta`/`content` (or statuses) |
 | MCP / schema delete | Usage checked first; target gone on read-back; dependents accounted for |
-| Permissions / keys | Key lives only in env/user MCP config; scopes match the operation; no key in git or client bundles |
+| Permissions / keys | **API keys**: env only, scopes match the SDK/CLI operation. **MCP keys**: user MCP config only, never scoped — expect full project access; never in git or client bundles |
 
-On errors: check URL/host, MCP flag / session header, and key scopes before rewriting approach.
+On errors: for MCP check URL/host, **MCP key**, and session header (not template scopes). For SDK/CLI check API key scopes.
 
 ## Improve this skill
 

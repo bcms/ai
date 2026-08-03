@@ -2,6 +2,13 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.4.3] — 2026-08-03
+
+### Fixed
+
+- **MCP key wording**: skills and references no longer call MCP auth an "API key" or claim MCP keys are scoped / least-privilege. MCP uses a per-project **MCP key** (`mcpKey`) with general access to entries, templates, groups, widgets, and media. Scoped **API keys** apply to SDK/CLI only (`references/permissions.md`, `references/mcp.md`).
+- Pack **1.4.3** / `bcms-content` **1.1.3**.
+
 ## [1.4.2] — 2026-08-03
 
 ### Changed
