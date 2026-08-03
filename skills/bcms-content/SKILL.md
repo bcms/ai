@@ -1,11 +1,12 @@
 ---
 name: bcms-content
-version: 1.1.0
+version: 1.1.1
 description: >
-  Run BCMS content operations from the command line. A thin CLI (wrapping the official
-  @thebcms/client SDK) for agents to create, update, delete, and list entries and upload
-  media using a single API key — the same three-part key used for the BCMS MCP. Use this
-  for scripted, deterministic content tasks in terminals, CI, and agent workflows.
+  Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop
+  when MCP is unavailable or a deterministic CLI is preferred. Use to create, update,
+  delete, or list entries and upload media with stable --json output and a single
+  three-part API key. Not for application SDK code, content modeling, or interactive MCP —
+  use the companion bcms skill for those.
 ---
 
 # BCMS Content CLI
@@ -174,5 +175,18 @@ node cli/bcms.mjs create-entry blog --data-file ./post.json
 - **`delete-entry` is irreversible.** Confirm the id with `list-entries` first, preview with `--dry-run`, and avoid deletes against production without checking impact. Non-interactive runs must pass `--yes` explicitly.
 - The CLI never prints credentials and redacts key-like values from API error output.
 - Use separate keys per environment (dev / staging / production).
+
+## Done looks like (self-verify)
+
+| Goal | Verify |
+|---|---|
+| Create / update entry | Command exit `0`; with `--json`, `ok: true`; stdout/data shows expected `meta` (and `content` if set). Prefer full entry payload from create/update. |
+| Delete entry | Previewed with `--dry-run` when unsure; then `--yes` in non-TTY; follow-up `list-entries` / get no longer returns the id (or `NOT_FOUND`). |
+| Upload media | Exit `0`; response includes media `_id`; optional parent dir matches `--parent`. |
+| Agent / CI loop | Use `--json`; parse one stdout envelope; map exit codes; do not retry `create-entry` / `upload-media` blindly after ambiguous failure. |
+
+## Improve this skill
+
+After a confusing CLI failure, unclear flag, or stale contract detail, propose an edit to this file (or bundled `references/`) rather than only fixing the one-off command.
 
 Deeper references are bundled under `references/` (entries, media, properties, permissions, MCP). Change history: `ai/CHANGELOG.md`.

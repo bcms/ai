@@ -2,6 +2,14 @@
 
 All notable changes to the canonical skill, references, plugin packaging, and local examples are documented here.
 
+## [1.4.1] — 2026-08-03
+
+### Changed
+
+- **`skills/bcms/SKILL.md`**: rewritten as a progressive-disclosure **router** — when/use-when/what description, mode table, reference index, principles, constraints, MCP gotchas only, durable Client init, **done looks like** self-verify, and an improve-this-skill note. Removed encyclopedia sections that duplicated `references/` (templates, entries, groups, properties, permissions, functions).
+- **`skills/bcms-content/SKILL.md`**: router-style description (scripted CLI vs MCP/SDK); added **done looks like** and improve-this-skill. CLI machine contract unchanged.
+- Pack **1.4.1** / `bcms-content` skill+CLI **1.1.1**.
+
 ## [1.4.0] — 2026-07-29
 
 ### Added

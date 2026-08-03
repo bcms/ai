@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-29T16:36:25.729Z",
+  "generatedAt": "2026-08-03T17:44:25.295Z",
   "publisher": {
     "name": "BCMS",
     "url": "https://thebcms.com",
@@ -9,8 +9,8 @@
   "skills": [
     {
       "name": "bcms",
-      "description": "BCMS headless CMS for coding agents. Build with the @thebcms/client SDK (templates, entries, groups, widgets, media, functions, webhooks, API keys, permissions) and operate content through the BCMS Model Context Protocol (MCP) server—scoped keys, Streamable HTTP, entry/media tools. Use for content modeling, framework integrations (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite), and agent-driven content operations.",
-      "version": "1.4.0",
+      "description": "Required when building with @thebcms/client or operating BCMS content/schema via MCP. Use for content modeling, framework apps (Next.js, Nuxt, Astro, Svelte, Gatsby, Vite), and agent-driven entry, media, or schema work. Routes SDK vs MCP vs the bcms-content CLI, secrets/least-privilege, and progressive references (templates, entries, properties, MCP).",
+      "version": "1.4.1",
       "install": {
         "skillsSh": "npx skills add bcms/ai --skill bcms",
         "openclaw": "openclaw skills install @bcms/bcms"
@@ -20,16 +20,16 @@
         "path": "skills/bcms"
       },
       "artifact": {
-        "filename": "bcms-skill-1.4.0.zip",
-        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.0.zip",
-        "sha256": "aebd242cd4f4c78a0e95d87a228b5c953e2d5f9d4012bf1f57b18b5a92961ba4",
-        "bytes": 78065
+        "filename": "bcms-skill-1.4.1.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-skill-1.4.1.zip",
+        "sha256": "ef46ec3931ea429a41a9fb3bbd4e0be7fc1b30c2aa8dbe0f96c4d12f96cba266",
+        "bytes": 68535
       }
     },
     {
       "name": "bcms-content",
-      "description": "Run BCMS content operations from the command line. A thin CLI (wrapping the official @thebcms/client SDK) for agents to create, update, delete, and list entries and upload media using a single API key — the same three-part key used for the BCMS MCP. Use this for scripted, deterministic content tasks in terminals, CI, and agent workflows.",
-      "version": "1.1.0",
+      "description": "Required for scripted BCMS entry and media operations in a terminal, CI, or agent loop when MCP is unavailable or a deterministic CLI is preferred. Use to create, update, delete, or list entries and upload media with stable --json output and a single three-part API key. Not for application SDK code, content modeling, or interactive MCP — use the companion bcms skill for those.",
+      "version": "1.1.1",
       "install": {
         "skillsSh": "npx skills add bcms/ai --skill bcms-content",
         "openclaw": "openclaw skills install @bcms/bcms-content"
@@ -39,10 +39,10 @@
         "path": "skills/bcms-content"
       },
       "artifact": {
-        "filename": "bcms-content-skill-1.1.0.zip",
-        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.0.zip",
-        "sha256": "8355b8572ed663748a372fb9b1c4e037616f21fc8bc7d1491750010594acf286",
-        "bytes": 65992
+        "filename": "bcms-content-skill-1.1.1.zip",
+        "url": "https://raw.githubusercontent.com/bcms/ai/main/dist/agent-resources/artifacts/bcms-content-skill-1.1.1.zip",
+        "sha256": "a46d82be59b1128478c6a64a0492d3eb2f0928942e478e8767bb153b698c6b0c",
+        "bytes": 66885
       }
     }
   ]
